@@ -6,9 +6,7 @@ The `InputPath`, `Parameters` and `ResultSelector` fields provide a way to manip
 
 AWS Step Functions applies the `InputPath` field first, and then the `Parameters` field. You can first filter your raw input to a selection you want using `InputPath`, and then apply `Parameters` to manipulate that input further, or add new values. You can then use the `ResultSelector` field to manipulate the state's output before `ResultPath` is applied.
 
-Step function follows following order of execution. ![im](https://github.com/amitkml/Serverless-Learning/blob/main/images/step_function_order_ops.JPG)
-
-
+Step function follows following order of execution. ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/images/step_function_order_ops.JPG?raw=true)
 
 ### InputPath
 
@@ -45,6 +43,10 @@ With the previous `InputPath`, the following is the JSON that is passed as the i
   "val3": "c"
 }
 ```
+
+Lets understand more from following example.![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/images/InputPath_Translation.JPG?raw=true)
+
+Here,  our InputPath is set to $.InvokingEvent and this means from input event, the InputPath will filter InvokingEvent element and pass on to state task.
 
 ### Parameters
 
