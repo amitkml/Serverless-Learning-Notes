@@ -115,3 +115,19 @@ kubectl autoscale rs web --max=5
 Copy
 
 This will use the [Horizontal Pod Autoscaler (HPA)](https://www.magalix.com/blog/kubernetes-autoscaling-101) with the ReplicaSet to increase the number of pods when the CPU load gets higher, but it should not exceed five pods. When the load decreases, it cannot have less than the number of pods specified before (two in our example).
+
+### Deleting ReplicaSets
+
+As with other [Kubernetes](https://www.magalix.com/blog/kubernetes-101-concepts-and-why-it-matters) objects, a ReplicaSet can be deleted by issuing a kubectl command like the following:
+
+```bash
+kubectl delete rs ReplicaSet_name
+```
+
+Copy
+
+Alternatively, you can also use the file that was used to create the resource (and possibly, other resource definitions as well) to delete all the resources defined in the file as follows:
+
+```bash
+kubectl delete -f definition_file.yaml
+```
