@@ -28,6 +28,86 @@
 
 ![1632124047707](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1632124047707.png)
 
+## Kubernetes Platform Concept
+
+Kubernetes concepts are built around microservices architectures and I’ll explain these using the above image as a reference starting from right to left.
+
+- A Service is a logical abstraction of *pods*.A Service is what is exposed outside the Kubernetes cluster. It has an IP address that does not change no matter how many pods are created or re-instantiated to support a particular *Service*.
+
+- A pod is comprised of one or more strictly dependent containers sharing storage, network (e.g. IP address) and running options. Pods are the minimum deployable unit in Kubernetes and it runs in a single node. Kubernetes restart pods in case of pod failure and re-schedule them to other nodes in case of node failure.
+
+
+
+![im](https://www.wwt.com/api/attachments/5c8152ffccf2270045b6ae92/file)
+
+## Architecture
+
+It is **declarative language** and not imperative. It is master and agent architecture. 
+
+- Kubectl is a client which is talking to API server.
+
+![1633689787204](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633689787204.png)
+
+### PODS
+
+- can have one or multi container
+- each POD has its address
+
+![1633690559219](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633690559219.png)![1633691220602](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633691220602.png)
+
+
+
+### Replicaset
+
+![1633690679621](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633690679621.png)
+
+### Secrets
+
+![1633690807411](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633690807411.png)
+
+### Deployments
+
+![1633690852771](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633690852771.png)
+
+
+
+### DaemeonSets
+
+![1633690900535](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633690900535.png)
+
+### ingress
+
+- it is a kind of controller and does traffic reroute
+- Ingress is a type of loadbalancer
+
+![1633691019270](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633691019270.png)
+
+### cronJobs
+
+![1633691073010](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633691073010.png)
+
+### CRD
+
+- Customer controller
+
+![1633691098131](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633691098131.png)
+
+### Namespace
+
+![1633692257360](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633692257360.png)
+
+#### storage
+
+![1633694247617](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633694247617.png)
+
+
+
+### volumeclaim in pod
+
+![1633694279168](C:\Users\akayal\AppData\Roaming\Typora\typora-user-images\1633694279168.png)
+
+
+
 ## Replicaset and pod
 
 There is one major difference between replication controller and replica set. **ReplicaSet requires a selector definition.** The selector section helps the replica set identify what pods fall under it.
@@ -133,18 +213,6 @@ Alternatively, you can also use the file that was used to create the resource (a
 ```bash
 kubectl delete -f definition_file.yaml
 ```
-
-## Kubernetes Platform Concept
-
-Kubernetes concepts are built around microservices architectures and I’ll explain these using the above image as a reference starting from right to left.
-
-- A Service is a logical abstraction of *pods*.A Service is what is exposed outside the Kubernetes cluster. It has an IP address that does not change no matter how many pods are created or re-instantiated to support a particular *Service*.
-
-- A pod is comprised of one or more strictly dependent containers sharing storage, network (e.g. IP address) and running options. Pods are the minimum deployable unit in Kubernetes and it runs in a single node. Kubernetes restart pods in case of pod failure and re-schedule them to other nodes in case of node failure.
-
-
-
-![im](https://www.wwt.com/api/attachments/5c8152ffccf2270045b6ae92/file)
 
 
 
@@ -399,4 +467,40 @@ $ kubectl describe svc backend
 
 ## Microservice Architecture using Kubernetes
 
+Lets take the following simplest example of micro services deployment.  it's just a simple
+example of the various types of pieces and languages you might see (queues, persistent data, etc), and how to deal with them in Kubernetes at a basic level.
+
+- A front-end web app in [Python](https://github.com/dockersamples/example-voting-app/blob/master/vote) or [ASP.NET Core](https://github.com/dockersamples/example-voting-app/blob/master/vote/dotnet) which lets you vote between two options
+- A [Redis](https://hub.docker.com/_/redis/) or [NATS](https://hub.docker.com/_/nats/) queue which collects new votes
+- A [.NET Core](https://github.com/dockersamples/example-voting-app/blob/master/worker/src/Worker), [Java](https://github.com/dockersamples/example-voting-app/blob/master/worker/src/main) or [.NET Core 2.1](https://github.com/dockersamples/example-voting-app/blob/master/worker/dotnet) worker which consumes votes and stores them in…
+- A [Postgres](https://hub.docker.com/_/postgres/) or [TiDB](https://hub.docker.com/r/dockersamples/tidb/tags/) database backed by a Docker volume
+- A [Node.js](https://github.com/dockersamples/example-voting-app/blob/master/result) or [ASP.NET Core SignalR](https://github.com/dockersamples/example-voting-app/blob/master/result/dotnet) webapp which shows the results of the voting in real time
+
+![im](https://raw.githubusercontent.com/dockersamples/example-voting-app/master/architecture.png)
+
+**Quick Notes about the architecture are:**
+
+- voting app requires connection with redis app
+- Worker app requires connection with redis and db app
+- result app requires connection with db app 
+
+**Steps are**
+
+- Deploy PODS with replica sets
+- Create Service (**ClusterIp**)
+  - redis (This will allow voting and worker app to access redis app)
+  - db (This will allow worker and result app to access db app)
+- Create Service (Nodeport)
+  - voting-app (will allow external users to access voting-app)
+  - result-app (will allow external users to access result app)
+
 ![im](https://www.wwt.com/api/attachments/5c8152c1c4188b00483b1190/file)
+
+## Kubernetes in AWS
+
+It is called EKS in AWS and and managed service.
+
+# References
+
+- https://docs.microsoft.com/en-us/learn/modules/aks-workshop/?wt.mc_id=github_#AzureHappyHours_webinar_reactor
+- https://aka.ms/YoutubeMFSTReactor

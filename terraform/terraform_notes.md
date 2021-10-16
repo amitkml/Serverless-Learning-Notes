@@ -6,8 +6,6 @@
 
 ## IAM Role to access from other AWS Account
 
-
-
 ```yaml
 resource aws_iam_role_policy document_output_s3_access_role_policy {
   count  = (length(var.services_trusted_accounts) != 0) ? 1 : 0
