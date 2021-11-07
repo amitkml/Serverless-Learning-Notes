@@ -18,5 +18,9 @@ Includes security surrounding application, pipeline etc. we should have groups i
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/pipeline-security.JPG?raw=true)
 
+## Azure Services
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/azure-services.JPG?raw=true)
+
 
 
