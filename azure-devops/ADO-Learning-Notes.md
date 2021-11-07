@@ -8,4 +8,7 @@
 
 ## DEV OPS Security
 
-Includes security surrounding application, pipeline etc.
+Includes security surrounding application, pipeline etc. we should have groups into azure dev ops and assign to use. user sonar cube to have viability analysis.
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/dev-security.JPG?raw=true)
+
