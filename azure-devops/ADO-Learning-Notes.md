@@ -12,3 +12,9 @@ Includes security surrounding application, pipeline etc. we should have groups i
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/dev-security.JPG?raw=true)
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/security_types.JPG?raw=true)
+
+### Securing CI/CD Pipeline
+
+
+
