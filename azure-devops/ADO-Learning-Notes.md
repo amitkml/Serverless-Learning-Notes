@@ -22,5 +22,9 @@ Includes security surrounding application, pipeline etc. we should have groups i
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/azure-services.JPG?raw=true)
 
+### Azure portal and dev-ops
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/azure-portal-devops.JPG?raw=true)
+
 
 
