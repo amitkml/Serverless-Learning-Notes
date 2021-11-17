@@ -30,6 +30,10 @@ Includes security surrounding application, pipeline etc. we should have groups i
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/release_gate.JPG?raw=true)
 
+## Branching strategy
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/azure-devops/branching.JPG?raw=true)
+
 
 
 
