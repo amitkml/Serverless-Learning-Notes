@@ -246,6 +246,13 @@ Amazon EMR is primarily designed to deliver batch orientated processing. As well
 
 Amazon EMR is primarily designed to manage semi structured data, and it is designed for schema on read. Schema on read is where you apply the structure to the data you are using as you read it, so we're effectively creating and applying the structure within your code rather than defining the structure in the database before you load it. Amazon EMR provides a framework that allows you to easily create, customize, and manage big data processing clusters based on the Apache Hadoop ecosystem. EMR stands for Elastic MapReduce. Underlying your EMR environment is a cluster of Amazon EC2 instances that house the Hadoop ecosystem of open source applications you need to access, process, and manage large volumes of data.
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-architecture.JPG?raw=true)
+
+- Each EMR cluster will have only one master node
+- The Core Node is a Slave Node, which stores data in the Hadoop Distributor File System, or HDFS and also runs tasks. 
+- A Task Slave Node only runs tasks, it does not store data. Task Nodes are optional when you're creating an EMR Cluster.
+- When scaling down your EMR environment you cannot remove Core Nodes but you can remove Task Nodes. This is because Core Nodes hold the data, so if you were to remove them you would lose that data. Whereas Task Nodes do not hold data so they can be used to scale your Cluster computer power up and down. 
+
 ![im](https://d1.awsstatic.com/Image_Thumbs/emr/DetailsPage_EMR-Diagram.f8045894990ffff76cb92421d82523675e1f7139.png)
 
 
