@@ -219,6 +219,37 @@ AWS Data Pipeline supports the following types of activities:
 
 AWS Snowball is a service that **provides secure, rugged devices**, so you can bring AWS computing and storage capabilities to your edge environments, and transfer data into and out of AWS. Those rugged devices are commonly referred to as AWS Snowball or AWS Snowball Edge devices.
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/sowball_architecture.JPG?raw=true)
+
+# AWS Big Data Specialty - Processing
+
+## What You'll Learn
+
+- Course Intro: What to expect from this course
+- Amazon Elastic MapReduce Overview: In this lesson, we discuss how EMR allows you to store and process data
+- Amazon Elastic MapReduce Architecture: In this lesson, you’ll learn about EMR’s clustered architecture.
+- Amazon Elastic MapReduce in Detail: In this lesson, we’ll dig deeper into EMR storage options, resource management, and processing options.
+- Amazon Elastic MapReduce Reference Architecture: Best practices for using EMR.
+- Amazon Lambda Introduction: This lesson will kick off our discussion of Lambda and how it’s used in Big Data scenarios.
+- Amazon Lambda Overview: This lesson discusses how Lambda allows you to run code for virtually any type of application or backend service with no administration.
+- AWS Lambda Architecture: In this lesson, we’ll discuss generic Lambda architecture and Amazon’s serverless service.
+- AWS Lambda in Detail: In this lesson, we’ll dig into Events and Service Limits.
+- AWS Lambda Reference Architecture: In this lesson, we'll look at a real-life scenario of how lambda can be used.
+
+## EMR Overview
+
+With Amazon EMR, you can leverage multiple data stores, including Amazon S3, the Hadoop Distributed File System (HDFS), and Amazon DynamoDB.
+
+Amazon EMR is targeted at providing processing patterns at a speed and scale that relational databases cannot achieve. 
+
+Amazon EMR is primarily designed to deliver batch orientated processing. As well as processing data, Amazon EMR can also store data. When choosing a big data storage solution from within the available AWS service offerings, it is important to determine whether the data sources we are primarily storing contain structured, semi structured, or unstructured data. This will typically drive the decision on which AWS service is the best for that data pattern or use case.
+
+Amazon EMR is primarily designed to manage semi structured data, and it is designed for schema on read. Schema on read is where you apply the structure to the data you are using as you read it, so we're effectively creating and applying the structure within your code rather than defining the structure in the database before you load it. Amazon EMR provides a framework that allows you to easily create, customize, and manage big data processing clusters based on the Apache Hadoop ecosystem. EMR stands for Elastic MapReduce. Underlying your EMR environment is a cluster of Amazon EC2 instances that house the Hadoop ecosystem of open source applications you need to access, process, and manage large volumes of data.
+
+![im](https://d1.awsstatic.com/Image_Thumbs/emr/DetailsPage_EMR-Diagram.f8045894990ffff76cb92421d82523675e1f7139.png)
+
+
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
