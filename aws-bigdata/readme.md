@@ -159,6 +159,8 @@ AWS Data Pipeline supports the following types of activities:
 
 ## Kinesis stream
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/kinesis-stream.JPG?raw=true)
+
 ![im](https://images.ctfassets.net/ee3ypdtck0rk/3Nj7dlXrWjY6QGLJ2WlLQy/37e85ae7a0581d31792dd05dd0830e50/Screen_Shot_2021-08-27_at_16.31.30.png?w=1853&h=1059&q=50&fm=webp)
 
 - One Kinesis Data Stream is made up of multiple shards, where the number of shards provisioned determines the billing. 
