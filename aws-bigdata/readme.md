@@ -15,6 +15,8 @@
 - Snowball Core Concepts: In this lesson, we'll look at the details of how Snowball is engineered to support data transfer.
 - Snowball Wrap-Up: A brief summary of Snowball and our course.
 
+# Data Pipeline
+
 ## Steps
 
 - Collect
@@ -133,4 +135,59 @@ AWS Data Pipeline supports the following types of activities:
 - data pipeline preconditions
   - system managed preconditions
   - user managed preconditions
-- a
+
+## Reference Architecture - Time series data
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/time-series-processing.JPG?raw=true)
+
+## Best practices for making AWS Big Data pipelines
+
+- Define clear IAM roles to protect your data and resources among various users
+- The volume of data expected.
+- The velocity of data, the rate at which it is coming.
+- Variety of data that the pipeline will be supporting.
+- The validity of data in the pipeline.
+- Create separate VPC to keep the data, resources, and pipeline protected.
+- Monitor the pipeline using AWS CloudWatch.
+- Select the tool by Big data 4 V's defined above to optimize the cost accordingly.
+
+# Kinesis
+
+- kinesis streams
+- kinesis firehose
+- kinesis analytics
+
+## Kinesis stream
+
+![im](https://images.ctfassets.net/ee3ypdtck0rk/3Nj7dlXrWjY6QGLJ2WlLQy/37e85ae7a0581d31792dd05dd0830e50/Screen_Shot_2021-08-27_at_16.31.30.png?w=1853&h=1059&q=50&fm=webp)
+
+- One Kinesis Data Stream is made up of multiple shards, where the number of shards provisioned determines the billing. 
+- Producers create records of data and stream them to Kinesis. A record is a data blob: it is serialized as bytes up to 1MiB in size and can represent any kind of data. 
+- A record comprises of
+  - data block in base 64 encoding which is record/payload
+  - partition key - specified by producer by algorithm. This determine in which shard the data will be placed. shard and partition key is mapped.
+  - sequence number - This is assigned by kinesis when records are placed into kinesis shard. Sequence number for same partition key generally grows over the time.
+- A record also contains a record key, which is used to group it into a specific shard. After being ingested into the stream, Kinesis adds a unique identifier for each record. 
+- The number of shards is unlimited. For each shard, all the records that are streamed to it are ordered.
+
+### Kinesis Data Streams Limits
+
+- Producers:
+  - Each shard ingests up to 1 MiB/second and 1000 records/second, otherwise a` ProvisionedThroughputException `will be thrown.
+- Consumer:
+  - Maximum total data read is 2MiB/second per shard.
+    - 5 API calls/second per shard.
+- Data retention
+  - By default 24 hours, extendable to 7 days
+
+## Why Adopting AWS Kinesis Data Firehose Matters?
+
+- It is a service that serves as a tool for the ingestion of streaming data from various data sources to the data sinks in a secure way. It can handle an ample amount of data stream workloads and scale accordingly.
+
+- When we get started with Kinesis Data Firehose, we first have to register a delivery stream, and It is the source of streaming data that we will save. Firehouse also provides the functionality to convert the streaming data chunks into other data formats so that it is easy to query or store in the data lake or data warehouse. Next, we define a lambda function in case we want to perform such a data transformation. Firehose comes with pre-configured AWS Lambda blueprints and templates that make it even easy to implement it. Last and the final step is selecting the data source and the data format we want to store the data. It automatically scales up and scales down depending upon the velocity of the data streams.
+
+- Kinesis Data Firehose is primarily made for a data pipeline where we want to store the streaming records to a data lake, in case you want to do processing or any analysis on the streaming data in real-time AWS Kinesis data analytics service is the best suited. Here is the list of supported data sources and sinks - **Data sources -** Streaming data from AWS Kinesis Agent, Firehose PUT API's, AWS IOT, CloudWatch Logs, CloudWatch Events. **Data sinks-** Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon Elasticsearch Service (Amazon ES), and Splunk. AWS Kinesis Data Analytics.
+
+# References
+
+- https://www.xenonstack.com/blog/aws-big-data
