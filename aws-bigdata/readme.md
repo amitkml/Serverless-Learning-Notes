@@ -184,6 +184,14 @@ AWS Data Pipeline supports the following types of activities:
 
 ## Why Adopting AWS Kinesis Data Firehose Matters?
 
+**Destination can be**
+
+- S3
+- Redshift
+- ElasticSearch
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/kinesis-firehose.JPG?raw=true)
+
 - It is a service that serves as a tool for the ingestion of streaming data from various data sources to the data sinks in a secure way. It can handle an ample amount of data stream workloads and scale accordingly.
 
 - When we get started with Kinesis Data Firehose, we first have to register a delivery stream, and It is the source of streaming data that we will save. Firehouse also provides the functionality to convert the streaming data chunks into other data formats so that it is easy to query or store in the data lake or data warehouse. Next, we define a lambda function in case we want to perform such a data transformation. Firehose comes with pre-configured AWS Lambda blueprints and templates that make it even easy to implement it. Last and the final step is selecting the data source and the data format we want to store the data. It automatically scales up and scales down depending upon the velocity of the data streams.
