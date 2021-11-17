@@ -61,6 +61,17 @@ The main components of the Data pipeline are -
 
 #### Pipeline Definition
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/aws-pipeline.JPG?raw=true)
+
+Data pipeline data nodes
+
+- Dynamo DB
+- RDS
+- S3
+- Redshift
+
+![im](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/images/dp-ddb-export-template.png)
+
 The pipeline can be created in 3 ways -
 
 - Graphically, using the AWS console or AWS pipeline Architect UI.
@@ -91,3 +102,35 @@ Logging is an essential part of data pipelines as it provides an insight into th
 
 - **Amazon EC2 -** Service for scalable servers in AWS data center, can be used to build various types of software services.
 - **Amazon EMR -** Service for distributed storage and compute over big data, using frameworks such as Hadoop and Apache Spark.
+
+#### Type of pipeline activity
+
+AWS Data Pipeline supports the following types of activities:
+
+- [CopyActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-copyactivity.html)                                                                     Copies data from one location to another.                                                                                 
+
+- [EmrActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-emractivity.html)                                                                       Runs an Amazon EMR cluster.                                                                                 
+
+- [HiveActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-hiveactivity.html)                                                                      Runs a Hive query on an Amazon EMR cluster.                                                                                 
+
+- [HiveCopyActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-hivecopyactivity.html)                                                             Runs a Hive query on an Amazon EMR cluster with support for advanced data                                             filtering and support for [S3DataNode](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-s3datanode.html) and [DynamoDBDataNode](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-dynamodbdatanode.html).                                                                                                                           
+
+- [PigActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-pigactivity.html)                                                                   Runs a Pig script on an Amazon EMR cluster.                                                                                 
+
+- [RedshiftCopyActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-redshiftcopyactivity.html)                                                 Copies data to and from Amazon Redshift tables.                                                                                 
+
+- [ShellCommandActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-shellcommandactivity.html)
+
+  ​                                                                                    Runs a custom UNIX/Linux shell command as an activity.                                                                                 
+
+- [SqlActivity](https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-object-sqlactivity.html)                                                                  Runs a SQL query on a database.                                                                                 
+
+#### Data pipeline components
+
+- data pipeline schedules
+- data pipeline task runner
+  - polls pipeline for tasks and executes them
+- data pipeline preconditions
+  - system managed preconditions
+  - user managed preconditions
+- a
