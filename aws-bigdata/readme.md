@@ -184,6 +184,8 @@ AWS Data Pipeline supports the following types of activities:
 
 ## Why Adopting AWS Kinesis Data Firehose Matters?
 
+![im](https://image.slidesharecdn.com/analyzing-real-time-streaming-d5157d72-01dd-4cf4-b1ac-986f841eb01e-1836541165-170717165601/95/analyzing-realtime-streaming-data-with-amazon-kinesis-19-638.jpg?cb=1500310572)
+
 **Destination can be**
 
 - S3
@@ -197,6 +199,25 @@ AWS Data Pipeline supports the following types of activities:
 - When we get started with Kinesis Data Firehose, we first have to register a delivery stream, and It is the source of streaming data that we will save. Firehouse also provides the functionality to convert the streaming data chunks into other data formats so that it is easy to query or store in the data lake or data warehouse. Next, we define a lambda function in case we want to perform such a data transformation. Firehose comes with pre-configured AWS Lambda blueprints and templates that make it even easy to implement it. Last and the final step is selecting the data source and the data format we want to store the data. It automatically scales up and scales down depending upon the velocity of the data streams.
 
 - Kinesis Data Firehose is primarily made for a data pipeline where we want to store the streaming records to a data lake, in case you want to do processing or any analysis on the streaming data in real-time AWS Kinesis data analytics service is the best suited. Here is the list of supported data sources and sinks - **Data sources -** Streaming data from AWS Kinesis Agent, Firehose PUT API's, AWS IOT, CloudWatch Logs, CloudWatch Events. **Data sinks-** Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon Elasticsearch Service (Amazon ES), and Splunk. AWS Kinesis Data Analytics.
+
+#### kinesis firehose data flow
+
+- For **Amazon S3 destinations**, streaming data is delivered to your S3 bucket. If data transformation is enabled, you can optionally back up source data to another Amazon S3 bucket.
+
+- For **Amazon Redshift destinations**, streaming data is delivered to your S3 bucket first. Kinesis Firehose then issues an Amazon Redshift copy command to load from your S3 bucket to your Amazon Redshift cluster. If data transformation is enabled, you can optionally back up source data to another Amazon S3 bucket. Note that you need to configure your Amazon Redshift cluster to be publicly accessible and unblock the Kinesis Firehose IP addresses. Also note that Kinesis Firehose doesn't delete the data from your S3 bucket after loading it to your Amazon Redshift cluster. 
+- For **Amazon Elasticsearch destinations**, streaming data is delivered to your Amazon Elasticsearch cluster and can optionally be backed up to your S3 bucket concurrently. There are a number of limits within [Amazon Kinesis Firehose service](https://cloudacademy.com/course/aws-big-data-specialty-data-collection/kinesis-wrap-up/) you need to be aware of.
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/firehose-data-flows.JPG?raw=true)
+
+
+
+## Difference between stream and firehose
+
+![im](https://image.slidesharecdn.com/analyzing-real-time-streaming-d5157d72-01dd-4cf4-b1ac-986f841eb01e-1836541165-170717165601/95/analyzing-realtime-streaming-data-with-amazon-kinesis-22-638.jpg?cb=1500310572)
+
+# Snowball
+
+AWS Snowball is a service that **provides secure, rugged devices**, so you can bring AWS computing and storage capabilities to your edge environments, and transfer data into and out of AWS. Those rugged devices are commonly referred to as AWS Snowball or AWS Snowball Edge devices.
 
 # References
 
