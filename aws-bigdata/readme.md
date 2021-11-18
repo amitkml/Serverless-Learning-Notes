@@ -253,9 +253,29 @@ Amazon EMR is primarily designed to manage semi structured data, and it is desig
 - A Task Slave Node only runs tasks, it does not store data. Task Nodes are optional when you're creating an EMR Cluster.
 - When scaling down your EMR environment you cannot remove Core Nodes but you can remove Task Nodes. This is because Core Nodes hold the data, so if you were to remove them you would lose that data. Whereas Task Nodes do not hold data so they can be used to scale your Cluster computer power up and down. 
 
+You are able to use different components at each of the layers but they all have pros and cons and they will change how your Amazon EMR solution will work or behave.
+
+- The key three layers you need to worry about for your EMR Cluster are what you use for storage, processing and access
+- An important option to note is that there are two launch modes you can use when creating your EMR environment, a Persistent Cluster and a Transient Cluster.
+- When you select Cluster as the launch mode, the EMR Cluster is created as a Persistent Cluster and continues running until you decide to terminate it. When you select Step Execution, you define what steps you want the EMR environment to run. Those steps drive the applications that are automatically installed when you create the Cluster. Once those steps are executed, the Cluster is automatically terminated.
+- Options
+  - The first thing you need to decide is what storage component you want to use. You have three choices. You can use the Hadoop Distributed File System or HDFS, the EMR file system or EMRFS, or a local file system. We will talk through each of these storage options and details in a few minutes. The Resource Management layer is responsible for managing the Cluster resources and scheduling the jobs for processing data.
+  - The next thing to choose is the processing engine you wish to use. At this time there are currently four choices: Hadoop MapReduce with TEZ, Presto, Hbase or Spark.
+  - The last layer to decide on is the applications and tools that will sit on top of the EMR storage and processing engine to allow you to enter it with a required data and code. Amazon EMR supports many applications, such as Hive, Pig and the Spark streaming libraries to provide capabilities such as using high level languages to concern processing workloads,
+- 
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-detailed_architecture.JPG?raw=true)
+
 ![im](https://d1.awsstatic.com/Image_Thumbs/emr/DetailsPage_EMR-Diagram.f8045894990ffff76cb92421d82523675e1f7139.png)
 
+### EMR Storage options
 
+| ile system                           | Prefix                   | Description                                                  |
+| :----------------------------------- | :----------------------- | :----------------------------------------------------------- |
+| HDFS                                 | `hdfs://` (or no prefix) | HDFS is a distributed, scalable, and portable file system for Hadoop. An advantage of HDFS is data awareness between the Hadoop cluster nodes managing the clusters and the Hadoop cluster nodes managing the individual steps. For more information, see [Hadoop documentation](http://hadoop.apache.org/docs/stable).HDFS is used by the master and core nodes. One advantage is that it's fast; a disadvantage is that it's ephemeral storage which is reclaimed when the cluster ends. It's best used for caching the results produced by intermediate job-flow steps. |
+| EMRFS                                | `s3://`                  | EMRFS is an implementation of the Hadoop file system used for reading and writing regular files from Amazon EMR directly to Amazon S3. EMRFS provides the convenience of storing persistent data in Amazon S3 for use with Hadoop while also providing features like Amazon S3 server-side encryption, read-after-write consistency, and list consistency.**Note**Previously, Amazon EMR used the `s3n` and `s3a` file systems. While both still work, we recommend that you use the `s3` URI scheme for the best performance, security, and reliability. |
+| local file system                    |                          | The local file system refers to a locally connected disk. When a Hadoop cluster is created, each node is created from an EC2 instance that comes with a preconfigured block of preattached disk storage called an *instance store*. Data on instance store volumes persists only during the life of its EC2 instance. Instance store volumes are ideal for storing temporary data that is continually changing, such as buffers, caches, scratch data, and other temporary content. For more information, see [Amazon EC2 instance storage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html). |
+| (Legacy) Amazon S3 block file system | `s3bfs://`               | The Amazon S3 block file system is a legacy file storage system. We strongly discourage the use of this system.**Important**We recommend that you do not use this file system because it can trigger a race condition that might cause your cluster to fail. However, it might be required by legacy applications. |
 
 # References
 
