@@ -277,6 +277,8 @@ You are able to use different components at each of the layers but they all have
 | local file system                    |                          | The local file system refers to a locally connected disk. When a Hadoop cluster is created, each node is created from an EC2 instance that comes with a preconfigured block of preattached disk storage called an *instance store*. Data on instance store volumes persists only during the life of its EC2 instance. Instance store volumes are ideal for storing temporary data that is continually changing, such as buffers, caches, scratch data, and other temporary content. For more information, see [Amazon EC2 instance storage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html). |
 | (Legacy) Amazon S3 block file system | `s3bfs://`               | The Amazon S3 block file system is a legacy file storage system. We strongly discourage the use of this system.**Important**We recommend that you do not use this file system because it can trigger a race condition that might cause your cluster to fail. However, it might be required by legacy applications. |
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-storage.JPG?raw=true)
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
