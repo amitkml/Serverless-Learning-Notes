@@ -279,6 +279,16 @@ You are able to use different components at each of the layers but they all have
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-storage.JPG?raw=true)
 
+### EMR Resource Management
+
+YARN stands for Yet Another Resources Negotiator and is the architectural center of Hadoop that allows multiple data processing engines to execute their code. By default, Amazon EMR uses YARN to centrally manage cluster resources from multi data processing frameworks. Amazon EMR also has an agent on each node which administers YARN components, keeping the clusters healthy and communications with the Amazon EMR service.
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-resource-management.JPG?raw=true)
+
+### EMR Processing Options
+
+The Apache Hadoop MapReduce provides three core components; one, the end-user MapReduce API for programming the desired MapReduce duplications, two, the MapReduce framework which is the runtime implementation of various phases such as the met phase, the sort, shuffle, merge, aggregation and reduces; and three, the MapReduce system which is the back end of the structure required to run the user's MapReduce duplication, manage the cluster resources and schedule thousands of concurrent jobs.
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
