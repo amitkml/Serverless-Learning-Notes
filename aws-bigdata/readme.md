@@ -289,6 +289,12 @@ YARN stands for Yet Another Resources Negotiator and is the architectural center
 
 The Apache Hadoop MapReduce provides three core components; one, the end-user MapReduce API for programming the desired MapReduce duplications, two, the MapReduce framework which is the runtime implementation of various phases such as the met phase, the sort, shuffle, merge, aggregation and reduces; and three, the MapReduce system which is the back end of the structure required to run the user's MapReduce duplication, manage the cluster resources and schedule thousands of concurrent jobs.
 
+- The job tracker was responsible for resource management, managing the work nodes called task trackers. Task trackers track resource consumption and availability as well as also job life cycle management such as scheduling individual tasks of the job, tracking progress and providing fault tolerance for tasks. The task tracker had simple responsibilities, launching or tearing down tasks on order from the job tracker and to provide task status information to the job tracker periodically.
+- The reduce function combines the intermediate results, applies additional algorithms and produces the final output. 
+- An Hbase system comprises a set of tables. **Each table contains rows and columns much like a traditional database**. Each table must have an element defined as a primary key and allto Hbase tables must use this primary key. An Hbase column represents an attribute of an object. For example, the table storing diagnostic logs from servers in your environment where each room might be a log report. **A typical column is such a table would be the timestamp of when the log report was written** or perhaps the server name where the record originated. Hbase works as seamlessly with Hadoop, sharing its file system and serving as a direct input and output to the MapReduce framework and execution engine. 
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-processing_options.JPG?raw=true)
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
