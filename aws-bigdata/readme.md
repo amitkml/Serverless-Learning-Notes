@@ -295,6 +295,14 @@ The Apache Hadoop MapReduce provides three core components; one, the end-user Ma
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/emr-processing_options.JPG?raw=true)
 
+### When to use EMR?
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/use-emr.JPG?raw=true)
+
+## Lambda
+
+
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
