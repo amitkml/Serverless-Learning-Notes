@@ -301,8 +301,52 @@ The Apache Hadoop MapReduce provides three core components; one, the end-user Ma
 
 ## Lambda
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/lambda-use-case.JPG?raw=true)
 
+## SmartNews Built a Lambda Architecture on AWS to Analyze Customer Behavior and Recommend Content
+
+![im](https://dmhnzl5mp9mj6.cloudfront.net/bigdata_awsblog/images/SmartNewsImage1a.png)
+
+Key observation from this architectures:
+
+- To make data platform sustainable, they decided to completely separate the compute and storage layers. They adopted [Amazon S3](https://aws.amazon.com/s3/) for file storage and [Amazon Kinesis Streams](https://aws.amazon.com/kinesis/streams/) for stream storage. Both services replicate data into multiple  Availability Zones and keep it available without high operation costs.  We don’t have to pay much attention to the storage layer and we can  focus on the computation layer that transforms raw data to a valuable  output.
+- Amazon S3 and Amazon Kinesis Streams let us run multiple compute layers  without complex negotiations. After data is stored, everyone can consume it in their own way
+
+### Input data
+
+- User activity logs include more than 60 types of activities to  understand user behavior such as which news articles are read. After we  receive logs from the mobile app, all logs are passed to [Fluentd](http://www.fluentd.org/), an OSS log collector, and forwarded to Amazon S3 and Amazon Kinesis Streams. If you are not familiar with Fluentd, see [Store Apache Logs into Amazon S3](https://docs.fluentd.org/v/0.12/articles/apache-to-s3) and [Collect Log Files into Kinesis Stream in Real-Time](https://docs.fluentd.org/how-to-guides/kinesis-stream) to understand how Fluentd works.
+- Our recommended practice is adding the flush_at_shutdown parameter. If set to true, Fluentd waits for the buffer to flush at shutdown. Because our  instances are scaled automatically, it’s important to store log files on Amazon S3 before terminating instances.
+- In addition, monitoring Fluentd status is important so that you know when bad things happen. We use [Datadog](https://www.datadoghq.com) and some Fluentd plugins. Because the [Fluent-plugin-flowcounter](https://github.com/tagomoris/fluent-plugin-flowcounter) counts incoming messages and bytes per second, we post these metrics to [Dogstatsd ](http://docs.datadoghq.com/guides/dogstatsd)via [Fluent-plugin-dogstatsd](https://github.com/ryotarai/fluent-plugin-dogstatsd). An example configuration is available in a [GitHub Gist post](https://gist.github.com/takus/1658aaa853f8d0d3d5c4ca1b5ba3ed20). After metrics are sent to Datadog, we can visualize aggregated metrics across any level that we choose. The following graph aggregates the number of records per data source.
+  - 
+
+### Batch layer
+
+- This layer is responsible for various ETL tasks such as transforming  text files into columnar files (RCFile or ORCFile) for following  consumers, generating machine learning features, and pre-computing the  batch views.
+
+- We run multiple [Amazon EMR](https://aws.amazon.com/elasticmapreduce) clusters for each task. Amazon EMR lets us run multiple heterogeneous [Hive](https://hive.apache.org) and [Spark](http://spark.apache.org) clusters with a few clicks. Because all data is stored on Amazon S3, we can use [Spot Instances](http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-spot-instances.html) for most tasks and adjust cluster capacity dynamically. It  significantly reduces the cost of running our data processing system.
+- When using a cron scheduler, a developer needs to write additional code  to handle dependencies such as waiting until the previous task is done,  or failure handling such as retrying failed tasks or specifying timeouts for long-running tasks. We use [Airflow](https://github.com/airbnb/airflow), an open-sourced task scheduler, to manage our ETL tasks. We can define ETL tasks and dependencies with Python scripts.
+
+### Serving layer
+
+The serving layer indexes and exposes the views so that they can be queried.
+
+- We use [Presto](https://prestodb.io/) for this layer. Presto is an open source, distributed SQL query engine for running interactive queries against various data sources such as Hive tables on S3, MySQL on Amazon RDS, Amazon Redshift, and Amazon Kinesis Streams. Presto converts a SQL query into a series of task stages and processes each stage in parallel. Because all processing occurs in memory to reduce disk I/O, end-to-end latency is very low: ~30 seconds to scan billions of records.
+- With Presto, we can analyze the data from various perspectives. 
+
+### Speed layer
+
+- Like the batch layer, the speed layer computes views from the data it receives. The difference is latency. Sometimes, the low latency adds variable outputs for the product.
+- For example, we need to detect current trending news by interest-based clusters to deliver the best stories for each user. For this purpose, we run [Spark Streaming](http://spark.apache.org/streaming).
+- User feedback in Amazon Kinesis Streams is joined on the interest-based user cluster data calculated in offline machine learning, and then the output metrics for each news article. These metrics are used to rank news articles in a later phase. What Spark Streaming does in the above figure looks something like the following:
+
+![im](https://dmhnzl5mp9mj6.cloudfront.net/bigdata_awsblog/images/SmartNewsImage5.PNG)
+
+### Output data
+
+- [Chartio](https://chartio.com/) is a commercial business intelligence (BI) service. Chartio enables every member (including non-engineers!) in the company to create, edit, and refine beautiful dashboards with minimal effort. 
+- Because Chartio supports various data sources such as Amazon RDS (MySQL, PostgreSQL), Presto, PipelineDB, [Amazon Redshift](https://aws.amazon.com/redshift/), and [Amazon OpenSearch](https://aws.amazon.com/opensearch-service/) (successor to Amazon Elasticsearch Service), you can start using it easily.
 
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
+- https://aws.amazon.com/blogs/big-data/how-smartnews-built-a-lambda-architecture-on-aws-to-analyze-customer-behavior-and-recommend-content/
