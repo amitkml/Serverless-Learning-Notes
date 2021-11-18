@@ -307,6 +307,10 @@ The Apache Hadoop MapReduce provides three core components; one, the end-user Ma
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/lambda_architecture.JPG?raw=true)
 
+### Lambda Events
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/lambda-events.JPG?raw=true)
+
 ## SmartNews Built a Lambda Architecture on AWS to Analyze Customer Behavior and Recommend Content
 
 ![im](https://dmhnzl5mp9mj6.cloudfront.net/bigdata_awsblog/images/SmartNewsImage1a.png)
