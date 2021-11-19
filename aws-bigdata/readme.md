@@ -372,7 +372,38 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb.JPG?raw=true)
 
+## DynamoDB Architecture
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb_archiecture.JPG?raw=true)
+
+## NO-SQL DB Pattern
+
+![im](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/media/types-of-nosql-datastores.png)
+
+| Model             | Characteristics                                              | Design                     |
+| :---------------- | :----------------------------------------------------------- | -------------------------- |
+| Document Store    | Data and metadata are stored hierarchically in JSON-based documents inside the database. **Ex: Storing XML. JSON Objects** | DynamoDB, MongoDB, CouchDB |
+| Key Value Store   | The simplest of the NoSQL databases, data is represented as a collection of key-value pairs. | DynamoDB, Riak             |
+| Wide-Column Store | Related data is stored as a set of nested-key/value pairs within a single column. | Casandra, HBase            |
+| Graph Store       | Data is stored in a graph structure as node, edge, and data properties. | OrientDB, Neo4j            |
+
+## SQL Vs. NoSQL
+
+![im](https://www.clariontech.com/hs-fs/hubfs/SQL-NOSQL.png?width=813&name=SQL-NOSQL.png)
+
+![im](https://www.clariontech.com/hs-fs/hubfs/RDBMS-NOSQL.png?width=557&name=RDBMS-NOSQL.png)
+
+## DynamoDB Components
+
+- Items
+- Primary Key
+  - Partition key
+  - Partition key and Sort Key
+- Secondary Index (**There can be max 5 global and 5 local secondary index**). Note: *Data is stored separately for secondary index from Primary and basically data is duplicated. AWS ensures that when we insert/update in DDB then secondary index data automatically gets reflected*. *Advantage of secondary index is that our application can support multiple query patterns*.
+  - Local (where Primary Key is same as main Primary Key but sort key will be different)
+  - Global (where Primary Key and sort key will be different from main one)
+
+![im](https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/09/10/dynamodb-partition-key-1.gif)
 
 # References
 
