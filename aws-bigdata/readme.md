@@ -362,7 +362,7 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 # AWS Big Data Specialty - Storage
 
-### Learning Objectives
+## Learning Objectives
 
 - Recognize and explain big data access and retrieval patterns.
 - Recognize and explain appropriate data structure and storage formats.
@@ -381,11 +381,11 @@ The serving layer indexes and exposes the views so that they can be queried.
   - Strongly consistent reads use more throughput capacity than eventually consistent reads. For details, see [Read/Write Capacity Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html)
 - ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb.JPG?raw=true)
 
-## DynamoDB Architecture
+### DynamoDB Architecture
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb_archiecture.JPG?raw=true)
 
-## NO-SQL DB Pattern
+### NO-SQL DB Pattern
 
 ![im](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/media/types-of-nosql-datastores.png)
 
@@ -396,13 +396,13 @@ The serving layer indexes and exposes the views so that they can be queried.
 | Wide-Column Store | Related data is stored as a set of nested-key/value pairs within a single column. | Casandra, HBase            |
 | Graph Store       | Data is stored in a graph structure as node, edge, and data properties. | OrientDB, Neo4j            |
 
-## SQL Vs. NoSQL
+### SQL Vs. NoSQL
 
 ![im](https://www.clariontech.com/hs-fs/hubfs/SQL-NOSQL.png?width=813&name=SQL-NOSQL.png)
 
 ![im](https://www.clariontech.com/hs-fs/hubfs/RDBMS-NOSQL.png?width=557&name=RDBMS-NOSQL.png)
 
-## DynamoDB Components
+### DynamoDB Components
 
 - Items
 - Primary Key
@@ -414,9 +414,46 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 ![im](https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/09/10/dynamodb-partition-key-1.gif)
 
-## Datatype
+### Datatype
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/DDB_datatype.JPG?raw=true)
+
+### Data Loading into DDB
+
+There is no SQL type query language to load data into DDB. we can use AWS Pipeline and EMR cluster to load data into DDB from S3.
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dataloading_ddb.JPG?raw=true)
+
+### Is DynamoDB right for your use case?
+
+You should consider using DynamoDB if you:
+
+1. Have had scalability problems with other traditional database systems.
+2. Are actively engaged in developing an application or service. It doesn’t always make sense to migrate legacy applications that are not under development, unless you’re willing to invest time and effort to reimplement the data access layer, inline SQL code, or the stored procedures and functions of that application.
+3. Are working with an [online transaction processing](https://en.wikipedia.org/wiki/Online_transaction_processing) (OLTP) workload. High-performance reads and writes are easy to manage with DynamoDB, and you can expect performance that is effectively constant across widely varying loads.
+4. Are deploying a mission-critical application that must be highly available at all times without manual intervention.
+5. Are understaffed with respect to management of additional database capability and need to reduce the workload of your operations team.
+6. Require a high level of data durability, regardless of your backup-and-restore strategy.
+7. Have insufficient data for forecasting peaks and valleys in required database performance.
+
+## RDS
+
+![im](https://image.slidesharecdn.com/whatsnewinrdsloftsession2-21v4-170221194128/95/whats-new-in-amazon-rds-for-open-source-and-commercial-databases-3-638.jpg?cb=1487706203)
+
+### Features of AWS RDS
+
+- Multiple Availability Zones
+  - Infrastructure failures may occur, but with AWS’s distributed infrastructure, these tend to be limited to a single Availability Zone (AZ). AWS RDS can be provisioned to deploy database instances to multiple AZs. Users gain enhanced availability and durability when the Multi-AZ instance is configured. Each AZ will run a physically distinct, replicated version of the database. Once the failure has been resolved, the primary database is automatically restored, limiting the downtime of your system. 
+- Optional Read Replicas
+  - Some instance types allow read replicas to be created. A read replica is a second database instance created using a snapshot of the first. In the case of Amazon Aurora, replicas are read using an SSD-back virtualized storage layer, which gives the added benefit of lowering costs. Read replicas allow you to scale your database capabilities beyond the limits of a single Availability Zone for read-only events. They also ensure if a single AZ is down, read events can still occur against a replica.
+- Automatic Instance Backups
+  - AWS RDS will create a snapshot of your database instance during your backup window. This snapshot backs up the entire instance and not just a single database so the entire instance can be recovered. Users configure the retention period of the snapshot to any time between 0 and 35 days. If you set this period to 0 days, the automated backups will be turned off. Users can also create a backup manually if necessary. 
+
+### Scale Automatically
+
+AWS RDS includes the ability to **autoscale databases’ storage size**. Users set a desired maximum storage size, and the AWS-managed RDS will detect when your storage size is limited based on currently available storage. RDS will automatically increase storage size when certain preset conditions are met. 
+
+**Auto-scaling your cluster based on workload requirements is only available with Amazon Aurora**. AWS will **automatically** adjust the number of Aurora replicas in the cluster to manage your workload. Scaling occurs based on a preset minimum and maximum capacity, as well as a cooldown period between scales.
 
 # References
 
