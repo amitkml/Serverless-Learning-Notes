@@ -313,6 +313,10 @@ The Apache Hadoop MapReduce provides three core components; one, the end-user Ma
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/event_source_lambda.JPG?raw=true)
 
+### Lambda Reference Architecture
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/lambda-reference-architecture.JPG?raw=true)
+
 ## SmartNews Built a Lambda Architecture on AWS to Analyze Customer Behavior and Recommend Content
 
 ![im](https://dmhnzl5mp9mj6.cloudfront.net/bigdata_awsblog/images/SmartNewsImage1a.png)
@@ -355,6 +359,18 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 - [Chartio](https://chartio.com/) is a commercial business intelligence (BI) service. Chartio enables every member (including non-engineers!) in the company to create, edit, and refine beautiful dashboards with minimal effort. 
 - Because Chartio supports various data sources such as Amazon RDS (MySQL, PostgreSQL), Presto, PipelineDB, [Amazon Redshift](https://aws.amazon.com/redshift/), and [Amazon OpenSearch](https://aws.amazon.com/opensearch-service/) (successor to Amazon Elasticsearch Service), you can start using it easily.
+
+# AWS Big Data Specialty - Storage
+
+### Learning Objectives
+
+- Recognize and explain big data access and retrieval patterns.
+- Recognize and explain appropriate data structure and storage formats.
+- Recognize and explain the operational characteristics of a Big Data storage solution.
+
+## DynamoDB
+
+
 
 # References
 
