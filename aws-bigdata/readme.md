@@ -370,7 +370,16 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 ## DynamoDB
 
-![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb.JPG?raw=true)
+- DynamoDB supports *eventually consistent* and *strongly  consistent* reads. DynamoDB uses eventually consistent reads, unless you specify otherwise. Read  operations (such as `GetItem`, `Query`, and `Scan`) provide a `ConsistentRead` parameter. If you set this parameter to true,                                          DynamoDB uses strongly consistent reads during the operation.                                       
+- **Eventually Consistent Reads**
+  - When you read data from a DynamoDB table, the response might not reflect the results  of a recently completed write operation. The response might include some stale data. If you repeat your read request after a short time, the response should return the latest data.
+- **Strongly Consistent Reads**
+  - When you request a strongly consistent read, DynamoDB returns a response with the  most up-to-date data, reflecting the updates from all prior write operations that  were successful. However, this consistency comes with some disadvantages: 
+  - A strongly consistent read might not be available if there is a network delay or outage. In this case, DynamoDB may return a server error (HTTP 500).                                          
+  - Strongly consistent reads may have higher latency than eventually consistent  reads.                                          
+  - Strongly consistent reads are not supported on global secondary indexes.                                          
+  - Strongly consistent reads use more throughput capacity than eventually consistent reads. For details, see [Read/Write Capacity Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html)
+- ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb.JPG?raw=true)
 
 ## DynamoDB Architecture
 
@@ -404,6 +413,10 @@ The serving layer indexes and exposes the views so that they can be queried.
   - Global (where Primary Key and sort key will be different from main one)
 
 ![im](https://d2908q01vomqb2.cloudfront.net/887309d048beef83ad3eabf2a79a64a389ab1c9f/2018/09/10/dynamodb-partition-key-1.gif)
+
+## Datatype
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/DDB_datatype.JPG?raw=true)
 
 # References
 
