@@ -1,3 +1,5 @@
+[TOC]
+
 # AWS Big Data Specialty - Data Collection
 
 - Introduction to Data Pipeline: In this lesson, we'll discuss the basics of Data Pipeline.
@@ -454,6 +456,14 @@ You should consider using DynamoDB if you:
 AWS RDS includes the ability to **autoscale databases’ storage size**. Users set a desired maximum storage size, and the AWS-managed RDS will detect when your storage size is limited based on currently available storage. RDS will automatically increase storage size when certain preset conditions are met. 
 
 **Auto-scaling your cluster based on workload requirements is only available with Amazon Aurora**. AWS will **automatically** adjust the number of Aurora replicas in the cluster to manage your workload. Scaling occurs based on a preset minimum and maximum capacity, as well as a cooldown period between scales.
+
+### RDS Security
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/rds_security.JPG?raw=true)
+
+## Redshift
+
+
 
 # References
 
