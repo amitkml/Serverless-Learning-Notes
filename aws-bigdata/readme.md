@@ -370,6 +370,8 @@ The serving layer indexes and exposes the views so that they can be queried.
 
 ## DynamoDB
 
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/dynamodb.JPG?raw=true)
+
 
 
 # References
