@@ -461,9 +461,35 @@ AWS RDS includes the ability to **autoscale databases’ storage size**. Users s
 
 ![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/rds_security.JPG?raw=true)
 
+### Reference Architecture
+
+![im](https://github.com/amitkml/Serverless-Learning-Notes/blob/main/aws-bigdata/RDS-Web_log_analysis.JPG?raw=true)
+
+
+
 ## Redshift
 
+Amazon Redshift is a data warehouse product which forms part of the larger cloud-computing platform Amazon Web Services, red being an allusion to Oracle, whose corporate color is red and is informally referred to as "Big Red.
 
+### Architecture
+
+5 major components of Amazon Redshift’s architecture. 
+
+1. Data applications
+2. Clusters
+3. Leader nodes
+4. Compute nodes
+5. Redshift Spectrum
+
+This architecture diagram shows how Amazon Redshift processes queries across this architecture.
+
+![im](https://intermix-media.intermix.io/wp-content/uploads/2019/02/23012123/Amazon-Redshift-Architecture-Life-of-a-Query-intermix.io_.png)
+
+### How it works
+
+Amazon Redshift uses SQL to analyze structured and semi-structured data across data warehouses, operational databases, and data lakes, using AWS-designed hardware and ML to deliver the best price performance at any scale.
+
+[![product-page-diagram_Redshift-Data-Sharing](https://d1.awsstatic.com/redshift/redshift-pdp/product-page-diagram_Redshift-Data-Sharing.cfb492d92166375ec67d5e73fcfa397e75fe9ea0.png)](https://aws.amazon.com/redshift/#)
 
 # References
 
