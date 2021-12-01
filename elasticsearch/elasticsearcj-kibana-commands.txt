@@ -1,0 +1,320 @@
+GET / subscriber /
+
+PUT / subscriber / json / 515968766{
+    "Addresses": [{
+            "City": "TX",
+            "Country": "USA",
+            "LineOne": " Houston",
+            "PostalCode": "77047",
+            "State": "TX",
+            "DefaultBilling": true,
+            "DefaultHome": false,
+            "DefaultPostal": true,
+            "DefaultService": true,
+            "DefaultShipping": false,
+            "DefaultWork": false,
+            "Id": 1412213,
+            "Created": "2021-11-22T16:05:40.943Z",
+            "Modified": "2021-11-22T16:05:40.943Z",
+            "Name": "100 Houston",
+            "ShipToName": "India",
+            "Status": 1,
+            "StatusName": "Active",
+            "TaxPCode": null,
+            "Verifiable": true,
+            "Verified": true
+        }
+    ],
+    "Subscriber": {
+        "Category": 1,
+        "CompanyName": "IH-163759714",
+        "ConvergentBillerId": "40003771",
+        "Created": "2021-11-22T16:05:40.890Z",
+        "ExternalReference": "IH-EX163759714",
+        "Id": 5159683,
+        "Language": "en-GB",
+        "Login": "1@1.com",
+        "State": 0,
+        "StateChangeDate": "2021-11-22T16:05:40.840Z",
+        "Status": 1,
+        "SubscriberTypeCode": 10121,
+        "AdditionalProperties": [{
+                "ExternalReference": "Invoice_Ref",
+                "Id": 1886,
+                "Name": "CustomerInvoiceRef",
+                "Values": []
+            }, {
+                "ExternalReference": "Bill_From_Address",
+                "Id": 1888,
+                "Name": "BillFromAddress",
+                "Values": [
+                    "add-sws"
+                ]
+            }
+        ],
+        "ContactPreferences": [{
+                "ContactEventType": 12,
+                "ContactMethod": 40,
+                "Id": 2702216,
+                "OptIn": true
+            }
+        ],
+        "EffectiveStartDate": "2021-11-22T16:05:40.863Z",
+        "HomeCountry": "USA",
+        "InvoiceConfiguration": {
+            "HideZeroAmount": false,
+            "InvoiceDetailLevel": 1
+        },
+        "StateName": "Prospect",
+        "StatusName": "Active",
+        "SubscriberCurrency": "USD",
+        "SubscriberTypeDetails": {
+            "AccountingMethod": 2,
+            "BillCycle": "40002163",
+            "BillCycleDay": 1,
+            "BillCycleName": "BillCycle_1",
+            "IsReadOnly": false,
+            "PaymentDueDays": 10,
+            "PostpaidAccountNumber": "CAQ400037719"
+        },
+        "TermsAndConditionsAccepted": "2021-11-22T16:05:40.883Z"
+    }
+}
+
+GET / subscriber / _doc / 139
+
+POST / subscriber / _update / 5159683{
+    "doc": {
+        "Addresses": [{
+                "City": "Austineexyz",
+                "Country": "USA"
+
+            }
+        ]
+    }
+
+}
+
+PUT / subscriber / json / 5159699{
+    "Addresses": [{
+            "City": "TX",
+            "Country": "USA",
+            "LineOne": " Houston",
+            "PostalCode": "77047",
+            "State": "TX",
+            "DefaultBilling": true,
+            "DefaultHome": false,
+            "DefaultPostal": true,
+            "DefaultService": true,
+            "DefaultShipping": false,
+            "DefaultWork": false,
+            "Id": 14122213,
+            "Created": "2021-11-22T16:05:40.943Z",
+            "Modified": "2021-11-22T16:05:40.943Z",
+            "Name": "100 Houston",
+            "ShipToName": "India",
+            "Status": 1,
+            "StatusName": "Active",
+            "TaxPCode": null,
+            "Verifiable": true,
+            "Verified": true
+        }
+    ],
+    "Subscriber": {
+        "Category": 1,
+        "CompanyName": "IH-1637593714",
+        "ConvergentBillerId": "40003771",
+        "Created": "2021-11-22T16:05:40.890Z",
+        "ExternalReference": "IH-E3X163759714",
+        "Id": 5159699,
+        "Language": "en-GB",
+        "Login": "1@1.com",
+        "State": 0,
+        "StateChangeDate": "2021-11-22T16:05:40.840Z",
+        "Status": 1,
+        "SubscriberTypeCode": 10121,
+        "AdditionalProperties": [{
+                "ExternalReference": "Invoice_Ref",
+                "Id": 1886,
+                "Name": "CustomerInvoiceRef",
+                "Values": []
+            }, {
+                "ExternalReference": "Bill_From_Address",
+                "Id": 1888,
+                "Name": "BillFromAddress",
+                "Values": [
+                    "add-sws"
+                ]
+            }
+        ],
+        "ContactPreferences": [{
+                "ContactEventType": 12,
+                "ContactMethod": 40,
+                "Id": 2702216,
+                "OptIn": true
+            }
+        ],
+        "EffectiveStartDate": "2021-11-22T16:05:40.863Z",
+        "HomeCountry": "USA",
+        "InvoiceConfiguration": {
+            "HideZeroAmount": false,
+            "InvoiceDetailLevel": 1
+        },
+        "StateName": "Prospect",
+        "StatusName": "Active",
+        "SubscriberCurrency": "USD",
+        "SubscriberTypeDetails": {
+            "AccountingMethod": 2,
+            "BillCycle": "40002163",
+            "BillCycleDay": 1,
+            "BillCycleName": "BillCycle_1",
+            "IsReadOnly": false,
+            "PaymentDueDays": 10,
+            "PostpaidAccountNumber": "CAQ400037719"
+        },
+        "TermsAndConditionsAccepted": "2021-11-22T16:05:40.883Z"
+    }
+}
+
+DELETE / subscriber / json / 5159699
+
+POST _bulk{
+    "index": {
+        "_index": "subscriber",
+        "_id": "139"
+    }
+}{
+    "Category": 1,
+    "CompanyName": "IH-10122",
+    "ConvergentBillerId": "12",
+    "Created": "2021-11-22T16:05:40.890Z",
+    "ExternalReference": "IH-EX163759714",
+    "Id": 139,
+    "Language": "en-GB",
+    "Login": "1@1.com",
+    "State": 1,
+    "StateChangeDate": "2021-10-22T16:05:40.840Z",
+    "Status": 1,
+    "SubscriberTypeCode": 10121
+}{
+    "index": {
+        "_index": "subscriber",
+        "_id": "169"
+    }
+}{
+    "Category": 1,
+    "CompanyName": "IH-163759714",
+    "ConvergentBillerId": "16",
+    "Created": "2021-11-22T16:05:40.890Z",
+    "ExternalReference": "IH-EX163759714",
+    "Id": 169,
+    "Language": "en-GB",
+    "Login": "1@1.com",
+    "State": 1,
+    "StateChangeDate": "2021-10-22T16:05:40.840Z",
+    "Status": 2,
+    "SubscriberTypeCode": 10122
+}
+
+POST / subscriber / _bulk{
+    "index": {}
+}{
+    "name": "Test1",
+    "data": "This is my test data"
+}{
+    "index": {}
+}{
+    "name": "Test2",
+    "data": "This is my test data2"
+}
+
+GET / subscriber / _doc / 139
+
+GET / subscriber / _search ? q = SubscriberTypeCode : "10121"
+
+    GET / subscriber / _search{
+    "query": {
+        "match": {
+            "ExternalReference": "ih-EX163759714"
+        }
+    }
+}
+
+GET / subscriber / _search{
+    "query": {
+        "match_all": {}
+    }
+
+}
+
+GET / subscriber / _search{
+    "query": {
+        "multi_match": {
+            "query": "ih",
+            "fields": ["ExternalReference", "CompanyName"]
+        }
+    }
+}
+
+GET / subscriber / _search{
+    "query": {
+        "bool": {
+            "must": [{
+                    "match": {
+                        "ExternalReference": "ih"
+                    }
+                }
+
+            ],
+            "must_not": [{
+                    "match": {
+                        "SubscriberTypeCode": "10121"
+                    }
+
+                }
+            ]
+        }
+    }
+}
+
+GET / subscriber / _search{
+    "query": {
+        "bool": {
+            "must": [{
+                    "match": {
+                        "ExternalReference": "ih"
+                    }
+                }
+
+            ],
+            "filter": [{
+                    "range": {
+                        "Status": {
+                            "gte": 1
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
+
+GET / subscriber / _search{
+    "query": {
+        "bool": {
+            "must": [{
+                    "match": {
+                        "ExternalReference": "ih"
+                    }
+                }
+
+            ],
+            "filter": [{
+                    "term": {
+                        "Status": "2"
+                    }
+                }
+            ]
+        }
+    }
+}
