@@ -112,6 +112,17 @@ Apply the policy to a group
 
 
 
+## AWS Code Build
+
+AWS CodeBuild is **a fully managed continuous integration service that compiles source code**,
+runs tests, and produces software packages that are ready to deploy. 
+With CodeBuild, you don't need to provision, manage, and scale your own 
+build servers.
+
+![im](https://i.pinimg.com/originals/21/9a/d9/219ad9ee45f8a189074b5f87f686e9f9.png)
+
+![im](https://miro.medium.com/max/624/1*gu4YU674fgqj1cgsQoXb3w.png)
+
 ## Reference
 
 - [Refining Access to Branches in AWS CodeCommit](https://aws.amazon.com/blogs/devops/refining-access-to-branches-in-aws-codecommit/)
