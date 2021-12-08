@@ -1,6 +1,30 @@
-# Serverless-Learning-Notes
+# Serverless-Learning and AWS ML Learning Agenda
 
-## Learning Agenda
+## Generic ML 
+- Frame ML problems
+- Architect ML solutions
+- Design data preparation and processing systems
+- Develop ML models
+- Automate & orchestrate ML pipelines
+- Monitor, optimize, and maintain ML solutions
+- Initial focus on Deep Learning and Transformers related to NLP (i.e. BERT, GPT)
+- The requirements
+- Excellent English skills - written & verbal
+
+## AWS ML Learning agenda
+- AWS Sagemaker
+- Experience with ML and predictions
+- Tensorflow and PyTorch in NLP
+- Working with Real Time Data Flow
+- Advanced proficiency with Python
+- Amazon AWS platform
+- AWS Sagemaker
+- Lambda Function
+- DynamoDB
+- Atlassian agile collaboration tools - Jira & Confluence
+- Zoom communication along with Gong.io AI-based call recording & analysis
+
+## AWS Learning Agenda
 - Hands on experience in (any 6 points)
 - End to end Cloud solution (AWS)  : In-Progress
 - End to end Big data solution : AWS Big Data course completed
