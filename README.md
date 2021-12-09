@@ -3,7 +3,7 @@
 # ML Notes
 - https://aman.ai/read/
 - https://aman.ai/watch/
-- 
+- https://aman.ai/
 ## Generic ML 
 - Frame ML problems
 - Architect ML solutions
