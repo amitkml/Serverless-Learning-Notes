@@ -1,5 +1,9 @@
 # Serverless-Learning and AWS ML Learning Agenda
 
+# ML Notes
+- https://aman.ai/read/
+- https://aman.ai/watch/
+- 
 ## Generic ML 
 - Frame ML problems
 - Architect ML solutions
