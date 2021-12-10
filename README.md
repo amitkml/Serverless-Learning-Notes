@@ -4,6 +4,12 @@
 - https://aman.ai/read/
 - https://aman.ai/watch/
 - https://aman.ai/
+
+## ML OPS
+- https://github.com/zenml-io/zenml
+- https://mlops.toys/#projects
+
+
 ## Generic ML 
 - Frame ML problems
 - Architect ML solutions
