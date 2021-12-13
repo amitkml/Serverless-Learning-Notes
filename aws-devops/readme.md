@@ -123,6 +123,35 @@ build servers.
 
 ![im](https://miro.medium.com/max/624/1*gu4YU674fgqj1cgsQoXb3w.png)
 
+## AWS CodeDeploy
+
+AWS CodeDeploy is **a fully managed deployment service that automates software deployments**  to a variety of compute services such as Amazon EC2, AWS Fargate, AWS  Lambda, and your on-premises servers. You can use AWS CodeDeploy to  automate software deployments, eliminating the need for error-prone  manual operations.
+
+![im](https://i.ytimg.com/vi/voWo0hF8mQQ/hqdefault.jpg)
+
+A blue/green deployment is a deployment strategy wherein you create two separate, but identical environments. One environment (blue) is running the current application version, and one environment (green) is running the new application version. The blue/green deployment strategy increases application availability by generally isolating the two application environments and ensuring that spinning up a parallel green environment won’t affect the blue environment resources. This isolation reduces deployment risk by simplifying the rollback process if a deployment fails.
+
+![im](https://d2908q01vomqb2.cloudfront.net/7719a1c782a1ba91c031a682a0a2f8658209adbf/2021/07/19/bg-blog-EFS-4.jpg)
+
+**The event flow in Figure 1 is as follows:**
+
+1. A developer commits code changes from their local repo to the CodeCommit repository. The commit triggers CodePipeline execution.
+2. CodeBuild execution begins to compile source code, install  dependencies, run custom commands, and create deployment artifact as per  the instructions in the [Build specification](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html) reference file.
+3. During the build phase, CodeBuild copies the source-code  artifact to Amazon EFS file system and maintains two different  directories for current (green) and new (blue) deployments.
+4. After successfully completing the build step, CodeDeploy  deployment kicks in to conduct a Blue/Green deployment to a new Auto  Scaling Group.
+5. During the deployment phase, CodeDeploy mounts the EFS file system on new EC2 instances as per the [CodeDeploy AppSpec](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html) file reference and conducts other deployment activities.
+6. After successful deployment, a Lambda function triggers in order to store a deployment environment parameter in [Systems Manager parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html). The parameter stores the current EFS mount name that the application utilizes.
+7. The [AWS Lambda](https://aws.amazon.com/lambda/) function updates the parameter value during every successful deployment with the current EFS location.
+
+### Code deploy configuration
+
+- Create IAM role with permission to read S3 and launch EC2
+  - [AmazonS3ReadOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn%3Aaws%3Aiam%3A%3Aaws%3Apolicy%2FAmazonS3ReadOnlyAccess)
+  - [AWSCodeDeployRole](https://console.aws.amazon.com/iam/home#/policies/arn%3Aaws%3Aiam%3A%3Aaws%3Apolicy%2Fservice-role%2FAWSCodeDeployRole)
+- Install code deploy agent
+  - https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html
+- configure code deploy application
+
 ## Reference
 
 - [Refining Access to Branches in AWS CodeCommit](https://aws.amazon.com/blogs/devops/refining-access-to-branches-in-aws-codecommit/)
