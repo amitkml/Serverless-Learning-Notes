@@ -33,6 +33,7 @@
 - DynamoDB
 - Atlassian agile collaboration tools - Jira & Confluence
 - Zoom communication along with Gong.io AI-based call recording & analysis
+- [New Serverless Transformers using Amazon SageMaker Serverless Inference and Hugging Face](https://www.philschmid.de/serverless-transformers-sagemaker-huggingface)
 
 ## AWS Learning Agenda
 - Hands on experience in (any 6 points)
