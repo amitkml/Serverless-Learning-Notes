@@ -17,6 +17,17 @@
 - Snowball Core Concepts: In this lesson, we'll look at the details of how Snowball is engineered to support data transfer.
 - Snowball Wrap-Up: A brief summary of Snowball and our course.
 
+# Architecture for High-Throughput Low-Latency Big Data Pipeline on Cloud
+
+[Architecture for High-Throughput Low-Latency Big Data Pipeline on Cloud](https://towardsdatascience.com/scalable-efficient-big-data-analytics-machine-learning-pipeline-architecture-on-cloud-4d59efc092b5)
+## Big data architecture using open source technologies
+
+![im](https://miro.medium.com/max/2000/1*HLUYMb0AZYiJaJFjOSn1Tg.png)
+
+## Big data architecture using open source technologies
+
+![im](https://miro.medium.com/max/2000/1*zwjVpH9A-IsPBXo2etcCVQ.jpeg)
+
 # Data Pipeline
 
 ## Steps
