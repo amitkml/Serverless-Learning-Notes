@@ -152,6 +152,108 @@ A blue/green deployment is a deployment strategy wherein you create two separate
   - https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html
 - configure code deploy application
 
+### Working with deployment configurations in CodeDeploy            
+
+When you deploy to an EC2/On-Premises compute platform, the deployment configuration specifies, through the use of a minimum healthy hosts value, the number or percentage of instances that must remain available at any time during a deployment. 
+
+You can use one of the three predefined deployment configurations provided by AWS or
+create a custom deployment configuration. For more information about creating custom
+deployment configurations, see [Create a Deployment Configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html). If you don't specify a deployment configuration, CodeDeploy uses the CodeDeployDefault.OneAtATime deployment configuration.
+
+| Deployment configuration      | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| CodeDeployDefault.AllAtOnce   | **In-place deployments**:                                                 Attempts to                                                 deploy an application  revision to as many instances as possible at once. The status                                                 of the overall  deployment is displayed as **Succeeded**                                                 if the application  revision is deployed to one or more of the instances. The status                                                 of the overall  deployment is displayed as **Failed** if                                                 the application revision  is not deployed to any of the instances. Using an example                                                 of nine instances,  CodeDeployDefault.AllAtOnce attempts to deploy to all nine                                                 instances at once. The  overall deployment succeeds if deployment to even a single                                                 instance is successful.  It fails only if deployments to all nine instances fail.                                                                                                  **Blue/green deployments**:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Deployment to replacement environment: Follows the same deployment rules                                                             as CodeDeployDefault.AllAtOnce for in-place deployments.                                                                                                                                                                                                                                                                                                                                                       Traffic  rerouting: Routes traffic to all instances in the replacement                                                             environment  at once. Succeeds if traffic is successfully rerouted to at least                                                             one  instance. Fails after rerouting to all instances fails. |
+| CodeDeployDefault.HalfAtATime | **In-place deployments**:                                                                                                                                                   Deploys to up to half  of the instances at a time (with fractions rounded                                                    down). The overall  deployment succeeds if the application revision is deployed to                                                    at least half of the  instances (with fractions rounded up). Otherwise, the                                                    deployment fails. In  the example of nine instances, it deploys to up to four                                                    instances at a time.  The overall deployment succeeds if deployment to five or more                                                    instances succeed.  Otherwise, the deployment fails.                                                                                                                                                    **Blue/green deployments**:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Deployment to replacement environment: Follows the same deployment rules                                                             as CodeDeployDefault.HalfAtATime for in-place deployments.                                                                                                                                                                                                                                                                                                                                                       Traffic  rerouting: Routes traffic to up to half the instances in the                                                             replacement  environment at a time. Succeeds if rerouting to at least half of                                                             the  instances succeeds. Otherwise, fails. |
+| CodeDeployDefault.OneAtATime  | **In-place deployments**:                                                                                                                                                   Deploys the application revision to only one instance at a time.                                                                                                  For deployment groups that contain more than one instance:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    The overall  deployment succeeds if the application revision is deployed to                                                             all of the  instances. The exception to this rule is that if deployment to the                                                             last  instance fails, the overall deployment still succeeds. This is because                                                             CodeDeploy  allows only one instance at a time to be taken offline with the                                                              CodeDeployDefault.OneAtATime configuration.                                                                                                                                                                                                                                                                                                                                                      The overall deployment fails as soon as the application revision fails to                                                             be deployed to any but the last instance.                                                                                                                                                                                                                                                                                                                                                       In an  example using nine instances, it deploys to one instance at a time.                                                             The overall  deployment succeeds if deployment to the first eight instances is                                                             successful.  The overall deployment fails if deployment to any of the first                                                             eight  instances fails.                                                                                                                                                                                                                                                                                                                                                                                  For deployment groups that contain only one instance, the overall deployment                                                    is successful only if deployment to the single instance is successful.                                                                                                                                                   **Blue/green deployments**:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Deployment to replacement environment: Follows same deployment rules as                                                             CodeDeployDefault.OneAtATime for in-place deployments.                                                                                                                                                                                                                                                                                                                                                       Traffic  rerouting: Routes traffic to one instance in the replacement                                                             environment  at a time. Succeeds if traffic is successfully rerouted to all                                                             replacement  instances. Fails after the very first rerouting failure. The                                                             exception to  this rule is that if the last instance fails to register, the                                                             overall  deployment still succeeds. |
+
+### Lifecycle Event Hooks in CodeDeploy
+
+Event hooks are configured on a file called Application Specification file (AppSpec). An **AppSpec file**  is nothing but a piece of a configuration file that can be written  using YAML or JSON, which defines how an application is deployed.  AppSpec file is available for deploying on three platforms:
+
+1. **Amazon ECS Compute Platform**
+2. **Amazon Lambda Compute Platform**
+3. **Amazon EC2/On-premises Compute Platform**
+
+Each of them has different hook events. For simplicity, we will be  looking at deploying on an EC2 instance. You can find the information  for the other two here:
+ <https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-server>
+
+Here is an overview of the lifecycle event hooks on an EC2/On-premises platform:
+
+![Lifecycle Event Hooks in CodeDeploy1](https://td-mainsite-cdn.tutorialsdojo.com/wp-content/uploads/2020/08/Lifecycle-Event-Hooks-in-CodeDeploy1.png)
+
+**Events** Here’s a brief description of the lifecycle events so you can decide  at which stage you are going to put custom actions as needed by your  deployments.
+
+1. **Start** – This is the first event of the  lifecycle event. The CodeDeploy Agent automatically executes this for  you. This initiates the instance for deployment.
+2. **ApplicationStop**  – it is the stage for running any scripts that will stop your old  application. For example, if you have a new version of an e-commerce web  application, let’s say v.1, this event will allow you to disable v.0  and prepare the instance to receive a new version, which in this case is  v.1.
+3. **DownloadBundle –** During this event, the CodeDeploy Agent will pull the new version onto the instance.
+4. **BeforeInstall** –  You can use this event to store the previous configuration of your old  install that you want to keep, decrypt files, and create a backup of the  current version.
+5. **Install** – During this event, the CodeDeploy Agent will copy the revision files to a file destination that you specify.
+6. **AfterInstall** – this event gives you the chance to change the configuration of your application before the application starts.
+7. **ApplicationStart** – As the name implies, you use this event to turn on your application which is now v.1 instead of v.0.
+8. **ValidateService** –  You can use this event to include any validation logic to determine that the deployment succeeded.
+9. **End** –  This is the last event of the lifecycle event. This will notify the  central service that the deployment to the instance was successful.
+
+**Things To Consider**
+
+- **YAML is the only available** format for configuring AppSpec in EC2/On-premise.
+- You can either use YAML or JSON for configuring AppSpec in ECS and Lambda.
+- You need to **install the CodeDeploy Agent** for configuring AppSpec in EC2/On-premise.
+- For ECS and Lambda, you can directly use the online editor.
+- Referring to the diagram above, only the **blue-colored** events can be scripted. The rest are handled by the CodeDeploy Agent.
+
+![im](https://www.oreilly.com/library/view/aws-certified-solutions/9781789130669/assets/c9d0ee58-7af7-4d09-9c33-0add2f9bec80.png)
+
+## Blue/Green: Duplicate the whole environment and switch the URLs
+
+Blue/Green  deployments simply replicate your current environment (blue), deploy  the new application to your new, cloned environment (green), and  redirect the traffic to the green one after deployment.
+
+If the deployment fails, you terminate the green environment, and nothing will be affected.
+
+If  something goes wrong after deployment, for example, your users  experience a problem in the new version, you can simply redirect the  traffic back to the old version. Hence, it would be wise to keep the old  environment running until you verify that the deployment is successful  and DNS propagation completed.
+
+If everything goes well, you  terminate the old environment, and your cloned environment becomes your  new blue one. You repeat the same process in all new deployments. It is a  nearly zero-downtime deployment model and a best practice for  mission-critical applications.
+
+### How to perform Blue/Green deployments on AWS Elastic Beanstalk?
+
+As  you deploy application versions on a selected environment, Blue/Green  does not exist as a deployment type on Elastic Beanstalk deployments  because you need to duplicate the environment as a whole, including  Elastic Load Balancers. However, this is very simple on Elastic  Beanstalk, and actually, this simplicity is one of its strengths:
+
+1)  You clone the current environment using AWS Management Console or AWS  CLI, or EB CLI. There is a feature for this. It will create a replica of  your environment alongside Elastic Load Balancers, Autoscaling Groups,  and other resources and deploy the current version on the new instances.
+
+2)  After your new environment is ready, you deploy the new version on this  environment and verify that the deployment is successful.
+
+![Elastic Beanstalk - Blue Green Deployments - Clone](https://blog.shikisoft.com/assets/images/post_imgs/eb-deployments/eb-blue-green-start.png)
+
+3)  Once you are sure that everything is fine, you swap the URLs of the two  environments using AWS Management Console or AWS CLI, or EB CLI. Again,  Elastic Beanstalk provides a specific action for this. Then, the  traffic will start to flow to your new environment after the DNS  propagation completes.
+
+![Elastic Beanstalk - Blue Green Success](https://blog.shikisoft.com/assets/images/post_imgs/eb-deployments/eb-blue-green-success.png)
+
+### What are the prerequisites to apply Blue/Green?
+
+First  of all, you are duplicating your environment and subject to AWS account  limits as in the immutable deployments. Hence, your EC2 instance limits  should cover the new instances launched.
+
+Secondly and even more  importantly, your environment should not contain any RDS instances  managed by Elastic Beanstalk because the data will not be copied during  the clone operation. Even it had clonned, the two databases would not be  in sync during the swap phase. So, swapping URLs and pointing to an  empty database would not be feasible if you have an RDS database  resource in your Elastic Beanstalk environment.
+
+## Rolling: Let’s be more cautious and deploy one by one!
+
+You can mitigate `all fail` mode of `all at once` by rolling deployments and switch to `only one batch fails` mode. When you deploy in the `Rolling` mode, you also define the number of instances to be grouped in a batch. For example, let’s define the batch size as 1.
+
+In the beginning, Elastic Beanstalk deploys the application version to the first batch and proceeds to next after it succeeds.
+
+![Elastic Beanstalk - Rolling](https://blog.shikisoft.com/assets/images/post_imgs/eb-deployments/eb-rolling-process.png)
+
+What  happens if the deployment fails? Only failed instance will be effected  and the effect on whole environment depends on when it failed.
+
+- If  it failed in the first batch, the first instance will be down, and the  remaining instances will continue to serve the previous version.
+- If  it failed in later batches, the failed instance will become unhealthy  and there will be two versions served by your environment: The new  version will be served by successful deployments until the failure and  the previous version will be served by instances the deployment  cancelled.
+
+![Elastic Beanstalk - Failure](https://blog.shikisoft.com/assets/images/post_imgs/eb-deployments/eb-rolling-failure.png)
+
+In  addition, your fleet size serving the application will be reduced by  the batch size, as failed instances will not be able to serve traffic.  But, you will not have downtime when compared to `all at once` deployments.
+
+To  rollback, you need to cancel deployment using AWS Management Console or  AWS CLI or EB CLI and start redeployment of the known previous healthy  version on the environmen
+
+
+
 ## Reference
 
 - [Refining Access to Branches in AWS CodeCommit](https://aws.amazon.com/blogs/devops/refining-access-to-branches-in-aws-codecommit/)
