@@ -502,6 +502,38 @@ Amazon Redshift uses SQL to analyze structured and semi-structured data across d
 
 [![product-page-diagram_Redshift-Data-Sharing](https://d1.awsstatic.com/redshift/redshift-pdp/product-page-diagram_Redshift-Data-Sharing.cfb492d92166375ec67d5e73fcfa397e75fe9ea0.png)](https://aws.amazon.com/redshift/#)
 
+# Shipping 150Bn+ events every month
+
+Refer https://medium.com/hevo-data-engineering/shipping-150bn-events-a-month-87e837d1f05f for more details.
+
+![im](https://miro.medium.com/max/875/1*EVwnHZ9VDOb20FYa3gU2ZA.png)
+
+
+
+In this post, we discuss how the components responsible for *ingestion* and *processing (consumption)* respond to the increase in data volume for pipelines that ship events to Data Warehouses.
+
+**Ingestion**: The process of identifying and reading the updated data from a source system.
+
+**Processing** (Consumption): The process of validating, transforming, mapping, and making data ready to be written to the destinations.
+
+Keeping the two systems decoupled helps in dealing with *non-symmetric read & write rates*, *better failure handling*, and achieving *efficient batching* for the warehouses (which is desired). It also helps in *scaling the read and write components* independent of each other. We chose [Kafka](https://kafka.apache.org/) for asynchronous buffering.
+
+[AWS Lambda](https://aws.amazon.com/lambda/) was considered and discarded as a candidate for executing the ingestion jobs due to the limitations to the job running capabilities and high costs.
+
+## The Ingestion Layer
+
+Hevo’s job manager [*Handyman*](https://medium.com/hevo-data-engineering/handyman-the-task-manager-b9bc5be87c1c) executes the ingestion jobs that are submitted to it by the Connectors. *Handyman* makes use of *worker pools* that are made available to it on ec2 nodes that come with a pre-configured number of *workers* depending on the instance types.
+
+## The Processing (Consumption) Layer
+
+Hevo follows a *multi-topic*, *multi-partition* strategy for Kafka topics. The topics are a function of the *team* (tenant) *configuration* and *destination configuration*. Each *consumer group* is responsible for processing events from a set of team topics. At Hevo, each of such grouping of teams is known as a *virtual cluster*. The goals of this grouping strategy are:
+
+- To keep the event processing latencies minimal for each customer.
+- Be able to scale the consumer threads quickly and independently in response to the growing event loads, thus being as near real-time as possible.
+- Providing some degree of isolation to the teams.
+
+These virtual clusters automatically adjust themselves to the change in the team dynamics. The *Coordinator* in the processing layer makes use of several metrics like *topic lags*, *processing speeds*, *hot-spotting, etc.* to come up with the capacity requirement numbers across all of the virtual clusters. The *Infra Coordinator* responds by adding nodes to the physical application cluster. The information on the increase in consumer capacity is then broadcasted to the cluster - the application responds to it by starting/stopping consumers for the relevant virtual cluster if they are healthy and are able to do so
+
 # References
 
 - https://www.xenonstack.com/blog/aws-big-data
