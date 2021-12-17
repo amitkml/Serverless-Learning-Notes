@@ -203,6 +203,17 @@ Here is an overview of the lifecycle event hooks on an EC2/On-premises platform:
 
 ![im](https://www.oreilly.com/library/view/aws-certified-solutions/9781789130669/assets/c9d0ee58-7af7-4d09-9c33-0add2f9bec80.png)
 
+## Deployment Policy
+
+Elastic beanstalk supports following deployment options to push application updates.
+
+- All in One
+- Rolling
+- Rolling with additional batch
+- Immutable
+- Traffic splitting
+- Blue/Green
+
 ## Blue/Green: Duplicate the whole environment and switch the URLs
 
 Blue/Green  deployments simply replicate your current environment (blue), deploy  the new application to your new, cloned environment (green), and  redirect the traffic to the green one after deployment.
