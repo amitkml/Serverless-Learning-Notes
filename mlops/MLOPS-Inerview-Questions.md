@@ -1,5 +1,12 @@
 # ML OPS Code Management
 
+## How we can put the code in one place?
+
+Yes, ML is experimental by nature, and so applying source control may not feel as straightforward as it is for other software systems. 
+
+- Unlike other software systems, versioning the code is only half of the job when it comes to ML, because the pipeline also relies on datasets. Ideally, you don’t want to be versioning your datasets via your source control service, and so you can instead leverage [the versioning capabilities offered by S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html) for example. That way, whenever a new dataset arrives, you’re certain that you would be using it in your pipeline while also keeping track of the exact version of the data
+- 
+
 # ML OPS
 
 ## What are lifecycle of data?
