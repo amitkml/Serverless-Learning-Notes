@@ -372,6 +372,13 @@ the repository.
 
 ![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/MLOPS-Pipeline.JPG?raw=true)
 
+
+
+In this setup, we will be introducing a system to thoroughly test pipeline components before they are packaged and ready to deploy. This will ensure continuous integration of pipeline code along with continuous delivery of pipelines, crucial elements of the automation process that the previous setup
+was missing.
+
+
+
 #  Amazon SageMaker Model Monitor
 
 Amazon SageMaker Model Monitor helps you maintain high quality  machine learning (ML) models by automatically detecting and alerting on  inaccurate predictions from models deployed in production.
