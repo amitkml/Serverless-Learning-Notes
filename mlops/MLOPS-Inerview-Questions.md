@@ -354,6 +354,24 @@ orchestrated jobs.
 
 ![im](https://lh3.googleusercontent.com/psNffpp8FwThF6jIhzAyzkj9dzJWs_iJgHqUnmEUJAc8w8gpDPji9YieKrrNsdOzYlBXS5a_L136DeUNsturbOS7f5_almE1N79P9CPPkaT2_cc_CE0SjAV_4Xon4mTEUam2aR6b)
 
+## Explain a possible deployment setup without ML OPS?
+
+The arrows with a dotted border mean that progression to the next step depends upon
+a condition in the current step. For example, in the model validation step, machine learning engineers must ensure that the model meets a minimum benchmark in performance before pushing a model class to
+the repository.
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/ML-WO-MLOPS.JPG?raw=true)
+
+**Problems in above manual step:**
+
+- The first thing to realize is that the entire experimental stage is manual, meaning data scientists and machine learning engineers must repeat those steps every time.
+- models must frequently be retrained so that they are always up to date with current trends in user data. Unfortunately, when the entire process of analyzing new trends, training, testing, and validating data is manual, this may require significant resources over time, which may become unfeasible
+  for a company without the resources to spare.
+
+## Explain deployment setup of a machine learning model with automation via pipelines?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/MLOPS-Pipeline.JPG?raw=true)
+
 #  Amazon SageMaker Model Monitor
 
 Amazon SageMaker Model Monitor helps you maintain high quality  machine learning (ML) models by automatically detecting and alerting on  inaccurate predictions from models deployed in production.
