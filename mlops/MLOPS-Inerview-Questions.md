@@ -549,6 +549,138 @@ mlflow.pytorch.log_model(model, "PyTorch_MNIST")
     the Docker container image to push to the AWS ECR.
 - a
 
+## How MLFlow works in aws?
+
+Refer the article https://aws.amazon.com/blogs/machine-learning/managing-your-machine-learning-lifecycle-with-mlflow-and-amazon-sagemaker/
+
+- In the following sections, we show how to deploy MLflow on [AWS Fargate](https://aws.amazon.com/fargate) and use it during your ML project with [Amazon SageMaker](https://aws.amazon.com/sagemaker). We use SageMaker to develop, train, tune, and deploy a Scikit-learn based ML model (random forest) using the [Boston House Prices dataset](https://scikit-learn.org/stable/datasets/index.html#boston-dataset). During our ML workflow, we track experiment runs and our models with MLflow.
+
+**High level steps are:**
+
+Refer github https://github.com/aws-samples/amazon-sagemaker-mlflow-fargate
+
+- Host a serverless MLflow server on Fargate
+- Set [Amazon Simple Storage Service](http://aws.amazon.com/s3) (Amazon S3) and [Amazon Relational Database Service](http://aws.amazon.com/rds) (Amazon RDS) as artifact and backend stores, respectively
+- Track experiments running on SageMaker with MLflow
+- Register models trained in SageMaker in the MLflow Model Registry
+- Deploy an MLflow model into a SageMaker endpoint
+
+You can set a central MLflow tracking server during your ML project. By using this remote MLflow server, data scientists will be able to manage experiments and models in a collaborative manner. 
+
+- An MLflow tracking server also has two components for storage: a `backend store` and an `artifact store`. 
+- This implementation **uses an Amazon S3 bucket as artifact store and an Amazon RDS instance for MySQL as backend stor**e.
+
+![im](https://github.com/amitkayal/amazon-sagemaker-mlflow-fargate/raw/main/media/architecture-mlflow.png)
+
+**Running an MLflow tracking server on a Docker container**
+
+- By default, the server runs on port `5000`, so we expose it in our container. Use `0.0.0.0` to bind to all addresses if you want to access the tracking server from other machines
+- We install `boto3` and `pymysql` dependencies for the MLflow server to communicate with the S3 bucket and the RDS for MySQL database
+
+```
+FROM python:3.8.0
+
+RUN pip install \
+    mlflow \
+    pymysql \
+    boto3 & \
+    mkdir /mlflow/
+
+EXPOSE 5000
+
+## Environment variables made available through the Fargate task.
+## Do not enter values
+CMD mlflow server \
+    --host 0.0.0.0 \
+    --port 5000 \
+    --default-artifact-root ${BUCKET} \
+    --backend-store-uri mysql+pymysql://${USERNAME}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}
+```
+
+### How to host n MLflow tracking server with Fargate?
+
+You can refer https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate/
+
+- Fargate is an easy way to deploy your containers on AWS. It allows you to use containers as a fundamental compute primitive without having to manage the underlying instances. 
+- to specify an image to deploy and the amount of CPU and memory it requires.
+- The MLflow container first needs to be built and pushed to an [Amazon Elastic Container Registry](http://aws.amazon.com/ecr/) (Amazon ECR) repository.
+- The container image URI is used at registration of our [Amazon ECS task definition](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_AWSCLI_Fargate.html#ECS_AWSCLI_Fargate_register_task_definition). The ECS task has an [AWS Identity and Access Management](http://aws.amazon.com/iam) (IAM) role attached to it, allowing it to interact with AWS services such as Amazon S3.
+- The Fargate service is set up with autoscaling and a network load balancer so it can adjust to the required compute load with minimal maintenance effort on our side.
+- When running our ML project, we set `mlflow.set_tracking_uri(`*<load balancer uri>*`)` to interact with the MLflow server via the load balancer.
+
+The following Python API command allows you to point your code running on SageMaker to your MLflow remote server:
+
+```python
+import mlflow
+mlflow.set_tracking_uri('<YOUR LOAD BALANCER URI>')
+```
+
+Connect to your notebook instance and set the remote tracking URI. The following diagram shows the updated architecture.
+
+![img](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2020/12/05/ML-1367-6.jpg)
+
+The following code demonstrates how you can use those API calls in your `train.py` script:
+
+```sql
+# set remote mlflow server
+mlflow.set_tracking_uri(args.tracking_uri)
+mlflow.set_experiment(args.experiment_name)
+
+with mlflow.start_run():
+    params = {
+        "n-estimators": args.n_estimators,
+        "min-samples-leaf": args.min_samples_leaf,
+        "features": args.features
+    }
+    mlflow.log_params(params)
+    
+    # TRAIN
+    logging.info('training model')
+    model = RandomForestRegressor(
+        n_estimators=args.n_estimators,
+        min_samples_leaf=args.min_samples_leaf,
+        n_jobs=-1
+    )
+
+    model.fit(X_train, y_train)
+
+    # ABS ERROR AND LOG COUPLE PERF METRICS
+    logging.info('evaluating model')
+    abs_err = np.abs(model.predict(X_test) - y_test)
+
+    for q in [10, 50, 90]:
+        logging.info(f'AE-at-{q}th-percentile: {np.percentile(a=abs_err, q=q)}')
+        mlflow.log_metric(f'AE-at-{str(q)}th-percentile', np.percentile(a=abs_err, q=q))
+
+    # SAVE MODEL
+    logging.info('saving model in MLflow')
+    mlflow.sklearn.log_model(model, "model")
+```
+
+Your `train.py` script needs to know which MLflow `tracking_uri` and `experiment_name` to use to log the runs. You can pass those values to your script using the hyperparameters of the SageMaker training jobs. See the following code:
+
+```sql
+# uri of your remote mlflow server
+tracking_uri = '<YOUR LOAD BALANCER URI>' 
+experiment_name = 'boston-house'
+
+hyperparameters = {
+    'tracking_uri': tracking_uri,
+    'experiment_name': experiment_name,
+    'n-estimators': 100,
+    'min-samples-leaf': 3,
+    'features': 'CRIM ZN INDUS CHAS NOX RM AGE DIS RAD TAX PTRATIO B LSTAT',
+    'target': 'target'
+}
+
+estimator = SKLearn(
+    entry_point='train.py',
+    source_dir='source_dir',
+    role=role,
+    metric_definitions=metric_definitions,
+    hyperparameters=hyperparameters,
+```
+
 # Building, automating, managing, and scaling ML workflows using Amazon SageMaker Pipelines
 
 Refer the article https://aws.amazon.com/blogs/machine-learning/building-automating-managing-and-scaling-ml-workflows-using-amazon-sagemaker-pipelines/
