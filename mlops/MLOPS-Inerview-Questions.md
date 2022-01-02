@@ -9,6 +9,10 @@ Yes, ML is experimental by nature, and so applying source control may not feel a
 
 # ML OPS
 
+## What is the difference between ML and software development?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/Software-ML-Goals.JPG?raw=true)
+
 ## What are lifecycle of data?
 
 They are
@@ -377,7 +381,177 @@ the repository.
 In this setup, we will be introducing a system to thoroughly test pipeline components before they are packaged and ready to deploy. This will ensure continuous integration of pipeline code along with continuous delivery of pipelines, crucial elements of the automation process that the previous setup
 was missing.
 
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/mlops-ci-cd.JPG?raw=true)
 
+With pipelines and machine learning models, some examples of testing include:
+
+- Does the validation testing procedure lead to correct tuning of the hyperparameters?
+- Does each pipeline component work correctly? Does it output the expected element? For example,
+  after model evaluation, does it correctly begin the validation step? (Alternatively, if model evaluation
+  goes after model validation, does the evaluation step correctly initiate?)
+- Is the data processing performed correctly? Are there any issues with the data post-processing
+  that would lead to poor model performance? Avoiding this outcome is for the best since it would
+  waste resources having to fix the data processing component. If the business relies on rapid pipeline
+  deployment, then avoiding this type of scenario is even more crucial.
+- Does the data processing component correctly perform data scaling? Does it correctly perform
+  feature engineering? Does it correctly transform images?
+- Does the model analysis work correctly? You want to make sure that you’re basing decisions
+  on accurate data. If the model truly performs well but faults in the model analysis component of the
+  pipeline lead the data scientist/machine learning engineer to believe the model isn’t performing that
+  well, then it could lead to issues where pipeline deployment is slowed down.
+
+# ML Flow Questions
+
+Refer the article https://aws.amazon.com/blogs/machine-learning/managing-your-machine-learning-lifecycle-with-mlflow-and-amazon-sagemaker/
+
+**Refer**
+
+ https://github.com/dmatrix/mlflow-workshop-part-1
+
+https://github.com/dmatrix/mlflow-workshop-part-2
+
+https://github.com/dmatrix/mlflow-workshop-part-3
+
+
+
+## What is ML Flow?
+
+MLflow is an open-source platform to manage the ML lifecycle, including experimentation, reproducibility, deployment, and a central model registry. It includes the following components:
+
+- **Tracking** – Record and query experiments: code, data, configuration, and results
+- **Projects** – Package data science code in a format to reproduce runs on any platform
+- **Models** – Deploy ML models in diverse serving environments
+- **Registry** – Store, annotate, discover, and manage models in a central repository
+
+## What is ML Flow design philosophy?
+
+![im](https://image.slidesharecdn.com/mlflow-meetup-july-2018-180723162128/95/mlflow-infrastructure-for-a-complete-machine-learning-life-cycle-7-638.jpg?cb=1532362957)
+
+## What are ML Flow components?
+
+![im](https://miro.medium.com/max/1531/1*SCobTA76kxbY5xDFjv8TOg.png)
+
+## How does MLflow tracking work?
+
+The MLflow Tracking component is an API and UI for logging parameters, code versions, metrics, and output files when running your machine learning code and for later visualizing the results. MLflow Tracking lets you log and query experiments using Python, REST, R API, and Java API APIs.
+
+![im](https://files.speakerdeck.com/presentations/3f9111d30f344e089607b0df6787b160/slide_29.jpg)
+
+![im](https://user-images.githubusercontent.com/1117597/101094048-a3769900-3570-11eb-86b7-d146c21fa67f.png)
+
+## How MLFlow backend stores works?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/mlflow-backend-store.JPG?raw=true)
+
+## What are MLFlow API’s?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/mlflow-api.JPG?raw=true)
+
+## How to run MLFlow in AWS?
+
+Refer to https://towardsdatascience.com/how-to-use-mlflow-on-aws-to-better-track-machine-learning-experiments-bbcb8acded65
+
+https://aws.amazon.com/blogs/machine-learning/managing-your-machine-learning-lifecycle-with-mlflow-and-amazon-sagemaker/
+
+## What are MLFlow project components?
+
+![im](https://dzlab.github.io/assets/2020/08/20200809-mlflow-projects.png)
+
+We need to tell MLflow the structure of our project by declaring the steps and the required dependencies through the following YAML files.
+
+- `MLproject` this is a special file where each step is declared, how it should be called as well as its inputs. For instance, in our case the file would look like this:
+
+```
+name: multistep
+
+conda_env: conda.yaml
+
+entry_points:
+  download:
+    command: "python download.py"
+
+  process:
+    parameters:
+      file_path: path
+    command: "python process.py --file-path {file_path}"
+
+  train:
+    parameters:
+      data_path: path
+    command: "python train.py --data-path {data_path}"
+
+  main:
+    parameters:
+      input1: {type: int, default: 1000000}
+    command: "python main.py --input1 {input1}"
+```
+
+
+
+- `conda.yaml` is another special file that can be used to declare the conda environment needed to run the steps in this pipeline.
+
+```
+name: multistep
+channels:
+  - defaults
+dependencies:
+  - python=3.6
+  - requests
+  - ...
+  - pip:
+    - tensorflow==2.0.0
+    - mlflow>=1.0
+```
+
+The project structure should look like this:
+
+```
+.
+├── MLproject
+├── conda.yaml
+├── download.py
+├── main.py
+├── process.py
+└── train.py
+```
+
+## Share some example of keras deployment by mlflow?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/mlflow-keras-example.JPG?raw=true)
+
+## What are key in mlflow?
+
+- Creating experiments
+- model and metric logging
+- Comparing model metrics
+- Model Registry
+- Local deployment
+
+```python
+mlflow.log_param("batch_size", batch_size)
+mlflow.log_param("num_epochs", num_epochs)
+mlflow.log_param("learning_rate", learning_rate)
+mlflow.log_metric("eval_acc", eval_acc)
+mlflow.log_metric("auc_score", auc_score)
+
+mlflow.log_artifact("sklearn_roc_plot.png")
+
+mlflow.pytorch.log_model(model, "PyTorch_MNIST")
+```
+
+## What are requirement for mlflow in aws?
+
+- must have the AWS command line interface (CLI) installed and have your credentials configured. the AWS CLI lets you connect to your AWS workspace.
+- must have an Identity and Access Management (IAM) execution role defined that grants SageMaker
+  access to your S3 buckets.
+- must have Docker installed and working properly. Verify that you can build Docker images.
+  - It is essential to have Docker working on your system because without it, MLFlow cannot build
+    the Docker container image to push to the AWS ECR.
+- a
+
+# Building, automating, managing, and scaling ML workflows using Amazon SageMaker Pipelines
+
+Refer the article https://aws.amazon.com/blogs/machine-learning/building-automating-managing-and-scaling-ml-workflows-using-amazon-sagemaker-pipelines/
 
 #  Amazon SageMaker Model Monitor
 
