@@ -1,3 +1,5 @@
+[TOC]
+
 # ML OPS Code Management
 
 ## How we can put the code in one place?

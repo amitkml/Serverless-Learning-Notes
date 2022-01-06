@@ -242,7 +242,7 @@ Consistency is the ability to read data with the understanding that all prior wr
 - Eventual consistency is the default behavior, with strong consistency available as an option for each read operation. We can walk through an example of the difference with this diagram. The client writes an update to Key1, and it is durably persisted.
 
 ![im](https://assets.skillbuilder.aws/files/a/w/aws_prod1_docebosaas_com/1640091600/gy_Gw1DONQhxsTSKj7jazg/tincan/bc1b00d1f241fed423cc99458cce9deb1976c143/assets/Qntlc9mCQxPojyf2_EG0FLrG4WMYPiJtl.png)
-  
+
 
 ## What is Read and Write Capacity?
 
@@ -529,6 +529,42 @@ How much does the revised design save us? If we look just at the DynamoDB WCUs, 
 - More data points stored in each DynamoDB item
 
   
+
+# Event Bridge
+
+## What is Event Bridge?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/event_bridge.JPG?raw=true)
+
+## Share some sample demo use case for event bridge?
+
+- schedule cron to call lambda
+- Invoke targets when pattern matching using “Predefined pattern by service”
+  - When ec2 instance stops then lambda gets called
+- Invoke target when event pattern matching “using custom patterns”
+  - when custom event pattern matches then call lambda
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/event_bridge_demo.JPG?raw=true)
+
+# Fargate and ECS
+
+## What are components of fargate?
+
+- A **Task** is one or more containers that are to be scheduled together by ECS.
+
+- A **Service** is like an Auto Scaling group for tasks. It defines the number of tasks to run across the cluster, where they should be running, automatically associates them with a load balancer, and horizontally scales based on metrics that you define like memory utilization, etc.
+
+- Another important AWS service is **Elastic Container Registry(ECR)**, It is a registry to store, manage our container images.
+
+## Explain how fargate and ECS related?
+
+![im](https://github.com/amitkml/Transformer-DeepLearning/blob/main/images/ECS-Container.JPG?raw=true)
+
+- push docker container image into ECR
+- Create a cluster with fargate as option
+- Create the task within cluster with fargate type
+  - add container details within task
+- Now run the task
 
 # Elastic Cache
 
