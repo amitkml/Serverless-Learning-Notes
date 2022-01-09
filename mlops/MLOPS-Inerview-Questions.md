@@ -1,5 +1,9 @@
 [TOC]
 
+## What is ML OPS?
+
+![im](https://blogs.nvidia.com/wp-content/uploads/2020/09/1-MLOps-NVIDIA-invert-final-672x356.jpg.webp)
+
 # ML OPS Code Management
 
 ## How we can put the code in one place?
@@ -740,4 +744,7 @@ predictor = model.deploy(
 )
 ```
 
-# 
+# Reference
+
+- [What Is MLOps?](https://blogs.nvidia.com/blog/2020/09/03/what-is-mlops/)
+

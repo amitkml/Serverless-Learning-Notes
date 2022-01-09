@@ -548,6 +548,14 @@ How much does the revised design save us? If we look just at the DynamoDB WCUs, 
 
 # Fargate and ECS
 
+## What is container?
+
+Hence, ***a\*** ***container\*** is a type of software that packages up an application and all its dependencies so the application runs reliably from one computing environment to another.
+
+## What is Docker?
+
+Docker is a company that provides software (also called **Docker**) that allows users to build, run and manage containers. While Docker’s container are the most common, there are other less famous *alternatives* such as [LXD](https://linuxcontainers.org/lxd/introduction/) and [LXC](https://linuxcontainers.org/). This entire process of managing hundreds and thousands of containers to keep the application up and running is known as **container orchestration**
+
 ## What are components of fargate?
 
 - A **Task** is one or more containers that are to be scheduled together by ECS.
@@ -555,6 +563,40 @@ How much does the revised design save us? If we look just at the DynamoDB WCUs, 
 - A **Service** is like an Auto Scaling group for tasks. It defines the number of tasks to run across the cluster, where they should be running, automatically associates them with a load balancer, and horizontally scales based on metrics that you define like memory utilization, etc.
 
 - Another important AWS service is **Elastic Container Registry(ECR)**, It is a registry to store, manage our container images.
+
+## What is AWS Elastic Container Service (ECS)?
+
+Amazon Elastic Container Service (Amazon ECS) is Amazon’s home-grown container orchestration platform. The idea behind ECS is similar to Kubernetes *(both of them are orchestration services)*.
+
+ECS is an AWS-native service, meaning that it is only possible to use on AWS infrastructure. On the other hand, **EKS** is based on Kubernetes, an open-source project which is available to users running on multi-cloud (AWS, GCP, Azure) and even On-Premise.
+
+Irrespective of whichever container orchestration service you are using (ECS or EKS), there are two ways you can implement the underlying infrastructure:
+
+- Manually manage the cluster and underlying infrastructure such as Virtual Machines / Servers / (also known as EC2 instances in AWS).
+
+- Serverless — Absolutely no need to manage anything. Just upload the container and that’s it. ← **This is AWS Fargate.**
+
+![img](https://miro.medium.com/max/700/1*k4famzZ1w2Ee5XMHRo1Ggw.png)
+
+## What is advantage of fargate?
+
+Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
+
+Fargate allocates the right amount of compute, eliminating the need to choose instances and scale cluster capacity. You only pay for the resources required to run your containers, so there is no over-provisioning and paying for additional servers.
+
+There is no best answer as to which approach is better. The choice between going serverless or manually managing an EC2 cluster depends on the use-case. Some pointers that can assist with this choice include:
+
+**ECS EC2 (Manual Approach)**
+
+- You are all-in on AWS.
+- You have a dedicated Ops team in place to manage AWS resources.
+- You have an existing footprint on AWS i.e. you are already managing EC2 instances
+
+**AWS Fargate**
+
+- You do not have huge Ops team to manage AWS resources.
+- You do not want operational responsibility or want to reduce it.
+- Your application is stateless *(A stateless app is an application that does not save client data generated in one session for use in the next session with that client)*.
 
 ## Explain how fargate and ECS related?
 
