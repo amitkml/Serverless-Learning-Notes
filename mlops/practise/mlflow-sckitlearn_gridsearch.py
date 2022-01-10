@@ -65,6 +65,8 @@ x_validate = scaler.transform(x_validate)
 # Training and Evaluating with MLFlow
 
 def train(sk_model, x_train, y_train):
+    mlflow.set_experiment("cc-fraud-detection-experiment")
+
     sk_model = sk_model.fit(x_train, y_train)
     train_acc = sk_model.score(x_train, y_train)
     mlflow.log_metric("train_acc", train_acc)

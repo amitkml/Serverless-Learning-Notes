@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/akayal/OneDrive%20-%20CSG%20Systems%20Inc/github-personal/Serverless-Learning-Notes/mlops/practise/mlruns/2/ecf7e1fb86b24416a95855d813bf3665/artifacts
+end_time: 1641810780989
+entry_point_name: ''
+experiment_id: '2'
+lifecycle_stage: active
+name: ''
+run_id: ecf7e1fb86b24416a95855d813bf3665
+run_uuid: ecf7e1fb86b24416a95855d813bf3665
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1641810775262
+status: 3
+tags: []
+user_id: AKayal
