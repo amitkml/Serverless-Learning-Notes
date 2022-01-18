@@ -43,6 +43,56 @@ Github Code https://lnkd.in/eJPFmYys
 
 ![im](https://blogs.nvidia.com/wp-content/uploads/2020/09/1-MLOps-NVIDIA-invert-final-672x356.jpg.webp)
 
+# ML OPS Serving Architecture
+
+## Explain steps in Serving Architecture?
+
+In the general case, a request to the Inference Service may ask for multiple predictions from multiple models. As numbered in figured 2, the steps to service a request are:
+
+- **Read the model config for the model(s) in the requests**. Then use the config to determine what features to fetch.
+
+- **Retrieve features from the feature store**. Some features may be included in the request and don’t need to be fetched. If a feature is missing from the feature store or is too stale, use default values.
+
+- **Send features to the respective models to get predictions**.
+
+- **Return predictions back to the client**.
+
+![A system diagram of the platform. A request first goes into the inference service, which then retrieves the configuration file for the relevant model. The inference service then fetches features from the feature store, and sends requests to model serving containers for predictions. The model serving containers load models from the model store.](https://miro.medium.com/max/60/1*3oubb0dRRiCQ-BleWSSgGA.png?q=20)
+
+![A system diagram of the platform. A request first goes into the inference service, which then retrieves the configuration file for the relevant model. The inference service then fetches features from the feature store, and sends requests to model serving containers for predictions. The model serving containers load models from the model store.](https://miro.medium.com/max/875/1*3oubb0dRRiCQ-BleWSSgGA.png)
+
+Figure 2: Architecture of a model serving platform that supports many models. The overlapping rectangles show that the component can be horizontally scaled. Diagram by author.
+
+**The components of the architecture**:
+
+- **Inference Service** — provides the serving API. Clients can send requests to different routes to get predictions from different models. The Inference Service unifies serving logic across models and provides easier interaction with other internal services. As a result, data scientists don’t need to take on those concerns. Also, the Inference Service calls out to ML serving containers to obtain model predictions. That way, the Inference Service can focus on I/O-bound operations while the model serving frameworks focus on compute-bound operations. Each set of services can be scaled independently based on their unique performance characteristics.
+- **Model Config** — is from the platform user. The config for a certain model may be read from another service, or all configs may be loaded into memory when the Inference Service starts.
+- **Feature store** — is one or more data stores that contain features.
+- **ML serving framework** — is a container with all the dependencies required to run a certain type of model. For example, a container with a specific version of Tensorflow Serving. The container may serve one or more models. To ensure reusable images, models usually aren’t baked into the container image. Rather, the container loads in models when it starts, or when a request for that model comes in. After a period of inactivity, models may be evicted from memory.
+- **Model Store** — is exactly what it sounds like. This may be an object store like AWS S3 and services may interact with it via a model registry service.
+
+## How Scaling to serve more models?
+
+Following image is an example. The fraud model is in a set of XGBoost containers, the pricing model is in a set of TorchServe containers, and the recommender model is in another set of TorchServe containers. With a good container orchestration framework, you can scale to hundreds of models.
+
+Over time, teams produce more models and multiple versions of the same model type, which results in many containers. **You might move towards serving multiple models per container because**:
+
+1. You want higher resource utilization. If the pricing model is idle, there are still 2 or more running containers to make sure the model is available. These containers take up the requested amount of resources. But, if a TorchServe container serves both the recommender and pricing models, you can use a higher percentage of resources. Of course, the tradeoff is you can have noisy neighbors where one model is slowed down because the other is competing for resources.
+2. You anticipate you’ll run into some limit on the number of containers. Kubernetes has a per cluster limit and so does AWS Elastic Container Service. Or, maybe the cluster is shared and there’s a limit on the number of containers for the serving platform.
+
+![Similar to figure 2, except this shows one model per set of serving containers](https://miro.medium.com/max/875/1*YI1fyzi3rYMOy_gmaHj8Tg.png)
+
+## How we can do Shadow mode and model rollouts?
+
+- One way to implement shadow mode is to forward some percentage of production model requests to the shadow model(s). Send the request without waiting on a response, and set up a monitoring system to write shadow model inputs and outputs to an offline store like Snowflake or AWS Redshift. Data scientists can then analyze model performance offline. It’s crucial to give shadow models lower priority than production models to prevent outages. 
+- The safe way of rolling out a new version of a model is to first divert a small percentage of production traffic to the new version. There are two ways to do so. The first is to let the client choose which version of a model to use. They can call a different API route or include the model version in the request. The other way to let the platform choose — developers specify how much traffic to send to the new model in the model config or some other config file. The Inference Service is then in charge of routing the right percentage of requests to the new model. I prefer the latter approach since clients don’t need to change their behavior to use a new model.
+
+## What is shuffle sharding?
+
+Salesforce has a unique use case where they need to serve 100K-500K models because the Salesforce Einstein product builds models for every customer. Their system serves multiple models in each ML serving framework container. To avoid the noisy neighbor problem and prevent some containers from taking significantly more load than others, they use shuffle sharding [8] to assign models to containers.
+
+![im](https://miro.medium.com/max/875/0*pL3v27Blm0c46dYj)
+
 # ML OPS Code Management
 
 ## How we can put the code in one place?
