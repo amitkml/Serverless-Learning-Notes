@@ -833,6 +833,146 @@ predictor = model.deploy(
 )
 ```
 
+# DistillBert Deployment in Ubuntu EC2
+
+Following commands needs to be executed after ubuntu 18.4 EC2 instance is created.
+
+```python
+chmod 400 DIstillBERT.pem
+
+## ssh -i "DIstillBERT-Deployment.pem" ubuntu@ec2-54-83-136-89.compute-1.amazonaws.com
+
+ssh -i "BertNLPClassifier.pem" ubuntu@ec2-3-87-228-70.compute-1.amazonaws.com
+
+
+df -BG ## to see space in GB
+sudo apt update
+sudo apt upgrade
+sudo apt install python3-pip python3-dev build-essential libssl-dev python3-setuptools
+sudo apt install yum
+
+pip3 install flask numpy pandas sklearn transformers tqdm
+
+## If you are running low on memory you could try with 
+pip3 install torch --no-cache-dir
+```
+
+**Bootstrap**
+
+```
+#!/bin/bash
+# Use this for your user data (script from top to bottom)
+# install httpd (Linux 2 version)
+sudo apt update
+sudo apt upgrade
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
+```
+
+**installing apache into EC2**
+
+```python
+sudo apt update
+sudo apt upgrade
+sudo apt install apache2
+sudo ufw allow 'Apache'
+```
+
+Then access http of the EC2 public api
+
+## Creating Virtual Env in EC2
+
+```python
+sudo apt install python3-venv
+
+sudo apt install python3-venv ## installing venv
+mkdir ~/bertmodel ## creating a directory for hosting venv
+cd bertmodel ## moving into directory
+python -m venv bertenv  ## creating virtual env
+source bertenv/bin/activate  ## activating venv distilbert
+## Setting up Flask Application
+
+pip3 install numpy pandas sklearn transformers tqdm ## installing in venv
+pip3 install torch --no-cache-dir
+pip install wheel
+pip install uwsgi flask
+```
+
+## What is uWSGI used for?
+
+Refer https://www.digitalocean.com/community/tutorials/how-to-set-up-uwsgi-and-nginx-to-serve-python-apps-on-ubuntu-14-04 for more details. Also refer the video https://www.youtube.com/watch?v=ZpR1W-NWnp4
+
+uwsgi (all lowercase) is the native binary protocol that uWSGI uses to communicate with other servers. uWSGI is often used for serving **Python web applications** in conjunction with web servers such as Cherokee and Nginx, which offer direct support for uWSGI's native uwsgi protoc
+
+Nginx implements a **uwsgi proxying mechanism**, which is a fast binary protocol that uWSGI can use to talk with other servers. The uwsgi protocol is actually uWSGI's default protocol, so simply by omitting a protocol specification, it will fall back to uwsg.
+
+
+
+Start uWSGI services: We can now start the uWSGI service we created and enable it so that it starts at boot:
+
+```
+sudo systemctl start bertmodel
+sudo systemctl enable bertmodel
+sudo systemctl status bertmodel
+```
+
+Nginx registers itself as a service with ufw upon installation, making it straightforward to allow Nginx access.
+
+```
+sudo ufw app list
+
+```
+
+We should allow only HTTPS but for time being we will use only HTTP . We will need additional SSL. certificate to encrypt connection of https .
+
+```
+sudo ufw allow 'Nginx HTTP'
+
+sudo netstat -tulnp | grep :5000
+```
+
+```
+ubuntu@ip-172-31-86-159:~$ sudo ufw app list
+Available applications:
+  Apache
+  Apache Full
+  Apache Secure
+  Nginx Full
+  Nginx HTTP
+  Nginx HTTPS
+  OpenSSH
+ubuntu@ip-172-31-86-159:~$ sudo ufw allow 'Nginx HTTP'
+Rules updated
+Rules updated (v6)
+ubuntu@ip-172-31-86-159:~$ sudo ufw status
+Status: inactive
+ubuntu@ip-172-31-86-159:~$
+
+ubuntu@ip-172-31-86-159:~$ systemctl status nginx
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:nginx(8)
+```
+
+Errors checking:
+
+```
+sudo less /var/log/nginx/error.log
+sudo less /var/log/nginx/access.log
+```
+
+
+
+## How to expose as API
+
+- https://fastapi.tiangolo.com/
+- [How to use uWSGI and Nginx to serve a Deep Learning model | AI Summer](https://theaisummer.com/uwsgi-nginx/)
+- 
+
 # Reference
 
 - [What Is MLOps?](https://blogs.nvidia.com/blog/2020/09/03/what-is-mlops/)
