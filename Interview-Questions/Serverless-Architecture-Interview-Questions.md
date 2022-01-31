@@ -1,3 +1,14 @@
+# Cost Optimisation
+
+## What are cost optimization Best practices?
+
+- Right size of compute resources proactively
+- Choose right storage type
+- monitor and correct cost anomalies
+- Build a culture of cost awareness
+- Purchase instance using savings plan and reserved instances
+- Automate infrastructure rightsizing during infra provisioning 
+
 # 	DynamoDB
 
 ![im](https://miro.medium.com/max/700/1*Kyz3EGX-PfkxAbDHxkJzpg.jpeg)
