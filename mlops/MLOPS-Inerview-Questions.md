@@ -965,13 +965,14 @@ sudo less /var/log/nginx/error.log
 sudo less /var/log/nginx/access.log
 ```
 
-
-
 ## How to expose as API
 
 - https://fastapi.tiangolo.com/
 - [How to use uWSGI and Nginx to serve a Deep Learning model | AI Summer](https://theaisummer.com/uwsgi-nginx/)
-- 
+
+# TFX
+
+
 
 # Reference
 

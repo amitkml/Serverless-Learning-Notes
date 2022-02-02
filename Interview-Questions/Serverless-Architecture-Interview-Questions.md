@@ -9,6 +9,22 @@
 - Purchase instance using savings plan and reserved instances
 - Automate infrastructure rightsizing during infra provisioning 
 
+## What are practical way to achieve cost optimization?
+
+- Shutdown Unutilized resources
+  - View a reports of resources like EC2 instances which are idle or underutilized
+  - services that needs to be run at certain times
+  - **Use AWS Instance scheduler to automatically stop instances.**
+  - resources like redshift can be paused when not utilized
+- correctly resize your underutilized resources
+  - **use aws cost optimizer for assisting in proper resource resize**
+- reserve instances for workloads having constant use
+- spot instances for transient type of workloads
+- configure autoscaling
+- Establish budgets and allocate costs to the teams/projects
+- choose the right compute service
+- check your storage
+
 # 	DynamoDB
 
 ![im](https://miro.medium.com/max/700/1*Kyz3EGX-PfkxAbDHxkJzpg.jpeg)
