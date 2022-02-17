@@ -1,3 +1,8 @@
+# Design and Delivery Tools
+- Talk and share knowledge with co-workers, customers, students volunteers, users, community, customers, co-workers   https://www.talkyard.io/
+- Design Tool - bit.ai
+- Azure Devops - Pipeline for build, ADO board for deployment planning, work management. Retire jira
+
 # Serverless-Learning and AWS ML Learning Agenda
 
 # AWS Billing and forecasting
