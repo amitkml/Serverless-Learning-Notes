@@ -2,6 +2,7 @@
 - Talk and share knowledge with co-workers, customers, students volunteers, users, community, customers, co-workers   https://www.talkyard.io/
 - Design Tool - bit.ai
 - Azure Devops - Pipeline for build, ADO board for deployment planning, work management. Retire jira
+- [Google Cloud architecture diagramming tool](https://cloud.google.com/blog/topics/developers-practitioners/introducing-google-cloud-architecture-diagramming-tool)
 
 # Serverless-Learning and AWS ML Learning Agenda
 
