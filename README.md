@@ -1,5 +1,12 @@
 # Serverless-Learning and AWS ML Learning Agenda
 
+# AWS Billing and forecasting
+- Cloudability : Online tool which can give visibility of spend and trends within an AWS account. 
+- Monitoring/alarming : What can be setup to help track spend
+- Forecast : Ensuring budget is thought about and included in the forecast for yearly spend for a project
+- Responsibilities : Ensuring awareness of spend and ensuring we don’t have runaway costs eg lambda or s3. 
+
+
 # ML Notes
 - https://aman.ai/read/
 - https://aman.ai/watch/
