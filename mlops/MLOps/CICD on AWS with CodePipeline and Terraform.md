@@ -12,6 +12,18 @@ Following are required for this POC.
 - Codestart connector (we are not going to use webhook as this is deprecated by AWS)
 - DEV Environment
 
+## Created the repo
+
+First step is a public repo creation and I have now a repo available named **aws-infra-cicd**. 
+
+## Bucket Creation
+
+I have now created S3 bucket **amit-s3-bucket-tfInfo** for maintaining TF state information. Key point here is that bucket versioning is enabled so that TF state file version can be maintained automatically. My bucket ARN is arn:aws:s3:::amit-s3-bucket-tf
+
+## Secret Manager
+
+New secret manager created for maintaining by dockerhub credentials.
+
 
 
 # Build a Serverless CI/CD pipeline on AWS with Fargate, CodePipeline and Terraform
