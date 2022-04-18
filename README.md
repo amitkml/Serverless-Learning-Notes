@@ -12,7 +12,8 @@
 - Forecast : Ensuring budget is thought about and included in the forecast for yearly spend for a project
 - Responsibilities : Ensuring awareness of spend and ensuring we don’t have runaway costs eg lambda or s3. 
 
-## Messaging Service
+## Messaging Service (Decision Tree: choose the right AWS messaging service)
+Refer the article https://betterdev.blog/decision-tree-sqs-sns-kinesis-eventbridge/
 - 🔹 SQS: Simple Queue Service (latency < 100ms)
 Multiple producers and a single (parallelized) consumer. Each message is consumed only once. The consumer *pulls* messages.
 
