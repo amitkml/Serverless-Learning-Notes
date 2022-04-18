@@ -12,6 +12,19 @@
 - Forecast : Ensuring budget is thought about and included in the forecast for yearly spend for a project
 - Responsibilities : Ensuring awareness of spend and ensuring we don’t have runaway costs eg lambda or s3. 
 
+## Messaging Service
+- 🔹 SQS: Simple Queue Service (latency < 100ms)
+Multiple producers and a single (parallelized) consumer. Each message is consumed only once. The consumer *pulls* messages.
+
+-🔹 SNS: Simple Notification Service (latency < 100ms)
+One producer *pushes* messages to multiple consumers. For example, the same notification message is pushed to SMS, email, mobile app, etc. Each subscriber can have a filter and can consume only the messages with specified attributes.
+
+-🔹 Kinesis Data Streams (latency ~200ms)
+Multiple producers, multiple distinct consumers. It is for streaming high volumes of data typical in data analytics. Each consumer pulls messages and tracks the last position in the stream that it has processed.
+
+-🔹 EventBridge (latency ~600ms)
+Think of an event bus for truly decoupled (micro)services. Multiple producers, multiple consumers. Each subscriber can set a filter. Microservices, instead of calling other microservices, push messages to a single central bus. Each microservice listens for the types of messages it is interested in.
+![im](https://media-exp1.licdn.com/dms/image/C5622AQH414IaHI8q1w/feedshare-shrink_2048_1536/0/1650256471047?e=2147483647&v=beta&t=Mmo7vQQ6JjJEu2hhvFYZrxadoFV9JuifaPEC0bchfpo)
 
 # ML Notes
 - https://aman.ai/read/
