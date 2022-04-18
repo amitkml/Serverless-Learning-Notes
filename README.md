@@ -6,6 +6,9 @@
 
 # Serverless-Learning and AWS ML Learning Agenda
 
+[Serverless on AWS](https://betterdev.blog/)
+
+
 # AWS Billing and forecasting
 - Cloudability : Online tool which can give visibility of spend and trends within an AWS account. 
 - Monitoring/alarming : What can be setup to help track spend
