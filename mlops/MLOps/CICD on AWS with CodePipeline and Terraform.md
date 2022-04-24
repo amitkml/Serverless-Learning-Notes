@@ -22,7 +22,17 @@ I have now created S3 bucket **amit-s3-bucket-tfInfo** for maintaining TF state 
 
 ## Secret Manager
 
-New secret manager created for maintaining by dockerhub credentials.
+New secret manager created for maintaining by dockerhub credentials. My secret manager ARN is arn:aws:secretsmanager:ap-south-1:222401151454:secret:aws-ci-cd-cred-SCo5I0 and this secret manager has two key **username** and **password**.
+
+## Establishing connectivity between github and AWS code pipeline
+
+Created a connection whereby provider is setup as github and then github link has been provided.  The connection ARN is arn:aws:codestar-connections:ap-south-1:222401151454:connection/10181639-28c4-4ce4-acd0-632f789c9499
+
+## Development setup
+
+Now, lets clone the github and start development.
+
+
 
 
 
